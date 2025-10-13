@@ -27,8 +27,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
       
       if (success) {
         toast({
-          title: "Access Granted",
-          description: "The library shelf slides open...",
+          title: "User Authorized",
+          description: "Welcome back.",
           duration: 3000,
         });
         onClose();
