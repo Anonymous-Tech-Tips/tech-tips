@@ -1,15 +1,20 @@
 import { z } from "zod";
 
 // Base schemas for common fields
+const UrlOrPath = z.string().refine(
+  s => /^https?:\/\//.test(s) || s.startsWith('/') || s.startsWith('#/'),
+  { message: 'Must be an absolute URL or a site-relative path' }
+);
+
 const BaseItemSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1).max(100),
   description: z.string().min(10).max(500),
-  thumbnail: z.string().url(),
+  thumbnail: UrlOrPath,
   tags: z.array(z.string().min(1)).min(1).max(10),
   featured: z.boolean().default(false),
-  createdAt: z.string().datetime().default(() => new Date().toISOString()),
-  updatedAt: z.string().datetime().default(() => new Date().toISOString()),
+  createdAt: z.string().datetime().optional(),
+  updatedAt: z.string().datetime().optional(),
 });
 
 // Game-specific schema
@@ -17,11 +22,11 @@ export const GameSchema = BaseItemSchema.extend({
   id: z.string().regex(/^[a-z0-9-]+$/, "ID must be lowercase alphanumeric with dashes only"),
   title: z.string().min(1).max(80),
   description: z.string().min(20).max(300),
-  url: z.string().url("Must be a valid URL"),
+  url: UrlOrPath,
   category: z.enum(["arcade", "puzzle", "strategy", "sports", "racing", "simulation", "idle", "other"]),
   mobileFriendly: z.boolean().default(true),
   offline: z.boolean().default(false),
-  assets: z.array(z.string().url()).optional(),
+  assets: z.array(UrlOrPath).optional(),
   developer: z.string().optional(),
   instructions: z.string().optional(),
   controls: z.string().optional(),
@@ -34,7 +39,7 @@ export const UtilitySchema = BaseItemSchema.extend({
   id: z.string().regex(/^[a-z0-9-]+$/, "ID must be lowercase alphanumeric with dashes only"),
   title: z.string().min(1).max(80),
   description: z.string().min(20).max(300),
-  url: z.string().url("Must be a valid URL"),
+  url: UrlOrPath,
   category: z.enum(["converter", "generator", "calculator", "editor", "analyzer", "other"]),
   inputType: z.enum(["text", "file", "number", "url", "mixed"]),
   outputType: z.enum(["text", "file", "number", "image", "mixed"]),

@@ -22,13 +22,13 @@
       "purpose": "any maskable"
     },
     {
-      "src": "/Armaan-Tech-Tips/icons/icon-192.png",
+      "src": "/Armaan-Tech-Tips/pwa-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Armaan-Tech-Tips/icons/icon-512.png",
+      "src": "/Armaan-Tech-Tips/pwa-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -42,7 +42,7 @@
       "url": "/Armaan-Tech-Tips/#/games",
       "icons": [
         {
-          "src": "/Armaan-Tech-Tips/icons/icon-192.png",
+          "src": "/Armaan-Tech-Tips/pwa-192.png",
           "sizes": "192x192"
         }
       ]
@@ -54,7 +54,7 @@
       "url": "/Armaan-Tech-Tips/#/utilities",
       "icons": [
         {
-          "src": "/Armaan-Tech-Tips/icons/icon-192.png",
+          "src": "/Armaan-Tech-Tips/pwa-192.png",
           "sizes": "192x192"
         }
       ]
@@ -66,7 +66,7 @@
       "url": "/Armaan-Tech-Tips/#/optimizations",
       "icons": [
         {
-          "src": "/Armaan-Tech-Tips/icons/icon-192.png",
+          "src": "/Armaan-Tech-Tips/pwa-192.png",
           "sizes": "192x192"
         }
       ]
