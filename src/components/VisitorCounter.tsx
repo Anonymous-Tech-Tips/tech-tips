@@ -15,44 +15,10 @@ export const VisitorCounter: React.FC<Props> = ({ variant = "floating", visible 
   const counterRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Load the visitor counter scripts and display the counter
-    const loadCounter = () => {
-      if (window.sfc_load_counter && counterRef.current) {
-        // Clear any existing content
-        counterRef.current.innerHTML = '';
-
-        // Trigger the counter loading
-        window.sfc_load_counter();
-
-        // The external script should populate the element with the counter
-        // If it doesn't work, we'll show a fallback
-        setTimeout(() => {
-          if (counterRef.current && counterRef.current.children.length === 0) {
-            counterRef.current.textContent = 'Loading...';
-          }
-        }, 1000);
-      } else if (counterRef.current) {
-        // Fallback if script doesn't load
-        counterRef.current.textContent = 'Loading...';
-      }
-    };
-
-    // Load scripts if not already loaded
-    if (!document.querySelector('script[src*="freevisitorcounters.com/auth.php"]')) {
-      const authScript = document.createElement('script');
-      authScript.src = 'https://www.freevisitorcounters.com/auth.php?id=4ec2798bde811331fb1531de8e659293860a2208';
-      authScript.type = 'text/javascript';
-      document.head.appendChild(authScript);
-
-      const counterScript = document.createElement('script');
-      counterScript.src = 'https://www.freevisitorcounters.com/en/home/counter/1233557/t/0';
-      counterScript.type = 'text/javascript';
-      document.head.appendChild(counterScript);
-
-      // Load counter after scripts are loaded
-      counterScript.onload = loadCounter;
-    } else {
-      loadCounter();
+    // The scripts are loaded in index.html, just need to trigger the counter
+    if (window.sfc_load_counter && counterRef.current) {
+      counterRef.current.innerHTML = '';
+      window.sfc_load_counter();
     }
   }, []);
 
