@@ -22,6 +22,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import gamesData from "@/data/games.json";
 import utilitiesData from "@/data/utilities.json";
 import { SEO } from "@/components/SEO";
+import { hash } from '@/lib/paths';
 
 interface CollectionItem {
   id: string;
@@ -127,7 +128,7 @@ const CollectionsPage: React.FC<CollectionsPageProps> = () => {
     setIsCreateDialogOpen(false);
 
     // Navigate to the new collection
-    navigate(`/Armaan-Tech-Tips/#/collections/${newCollection.id}`);
+    navigate(hash(`/collections/${newCollection.id}`));
   };
 
   // Update collection

@@ -2,6 +2,7 @@ import React from "react";
 import { Wrench, Cpu, GraduationCap, MoreHorizontal, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserPrefs } from "@/contexts/UserPrefsContext";
 import { Navbar } from "@/components/Navbar";
 import { ShareBanner } from "@/components/ShareBanner";
 import { ContentSection } from "@/components/ContentSection";
@@ -9,9 +10,20 @@ import { HeroBanner } from "@/components/HeroBanner";
 import { GamerHome } from "@/components/GamerHome";
 import { SEO } from "@/components/SEO";
 import { Footer } from "@/components/Footer";
+import { hash } from "@/lib/paths";
+import games from "@/data/games.json";
 
 const Index = () => {
   const { isAuthenticated } = useAuth();
+  const { prefs } = useUserPrefs();
+
+  // Get continue playing items
+  const continueIds = prefs.history.filter(h => h.itemType==='game').map(h => h.itemId);
+  const uniqueContinue = [...new Set(continueIds)];
+  const continueItems = uniqueContinue.map(id => games.find(g => g.id===id)).filter(Boolean) as typeof games;
+
+  // Get favorite items
+  const favItems = prefs.favorites.map(id => games.find(g => g.id===id)).filter(Boolean) as typeof games;
 
   return (
     <>
@@ -28,6 +40,62 @@ const Index = () => {
           <HeroBanner />
 
           <GamerHome />
+
+          {/* Continue Playing Rail */}
+          {continueItems.length > 0 && (
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <h2 className="text-2xl md:text-3xl font-rowdies font-bold text-gamer-text mb-6">
+                Continue Playing
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                {continueItems.slice(0, 12).map(game => (
+                  <Link
+                    key={game.id}
+                    to={hash(`/games/${game.id}`)}
+                    className="group bg-gamer-card border border-gamer-border rounded-lg p-3
+                             transition-all duration-normal hover:border-gamer-accent hover:shadow-lg hover:shadow-gamer-accent/20 hover:-translate-y-1"
+                  >
+                    <img
+                      src={game.thumbnail}
+                      alt={game.title}
+                      className="w-full h-20 object-cover rounded mb-2"
+                    />
+                    <h3 className="font-medium text-gamer-text group-hover:text-gamer-accent transition-colors duration-fast text-sm text-center truncate">
+                      {game.title}
+                    </h3>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Favorites Rail */}
+          {favItems.length > 0 && (
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <h2 className="text-2xl md:text-3xl font-rowdies font-bold text-gamer-text mb-6">
+                Your Favorites
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                {favItems.slice(0, 12).map(game => (
+                  <Link
+                    key={game.id}
+                    to={hash(`/games/${game.id}`)}
+                    className="group bg-gamer-card border border-gamer-border rounded-lg p-3
+                             transition-all duration-normal hover:border-gamer-accent hover:shadow-lg hover:shadow-gamer-accent/20 hover:-translate-y-1"
+                  >
+                    <img
+                      src={game.thumbnail}
+                      alt={game.title}
+                      className="w-full h-20 object-cover rounded mb-2"
+                    />
+                    <h3 className="font-medium text-gamer-text group-hover:text-gamer-accent transition-colors duration-fast text-sm text-center truncate">
+                      {game.title}
+                    </h3>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Quick Access Cards for Gamer Mode */}
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

@@ -6,6 +6,8 @@ const UrlOrPath = z.string().refine(
   { message: 'Must be an absolute URL or a site-relative path' }
 );
 
+const ISOorOptional = z.string().datetime().optional();
+
 const BaseItemSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1).max(100),
@@ -13,17 +15,17 @@ const BaseItemSchema = z.object({
   thumbnail: UrlOrPath,
   tags: z.array(z.string().min(1)).min(1).max(10),
   featured: z.boolean().default(false),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
+  createdAt: ISOorOptional,
+  updatedAt: ISOorOptional,
 });
 
 // Game-specific schema
 export const GameSchema = BaseItemSchema.extend({
-  id: z.string().regex(/^[a-z0-9-]+$/, "ID must be lowercase alphanumeric with dashes only"),
+  id: z.string().regex(/^[a-z0-9-]+$/),
   title: z.string().min(1).max(80),
   description: z.string().min(20).max(300),
   url: UrlOrPath,
-  category: z.enum(["arcade", "puzzle", "strategy", "sports", "racing", "simulation", "idle", "other"]),
+  category: z.enum(["arcade","puzzle","strategy","sports","racing","simulation","idle","other"]),
   mobileFriendly: z.boolean().default(true),
   offline: z.boolean().default(false),
   assets: z.array(UrlOrPath).optional(),
@@ -36,20 +38,20 @@ export const GameSchema = BaseItemSchema.extend({
 
 // Utility tool schema
 export const UtilitySchema = BaseItemSchema.extend({
-  id: z.string().regex(/^[a-z0-9-]+$/, "ID must be lowercase alphanumeric with dashes only"),
+  id: z.string().regex(/^[a-z0-9-]+$/),
   title: z.string().min(1).max(80),
   description: z.string().min(20).max(300),
   url: UrlOrPath,
-  category: z.enum(["converter", "generator", "calculator", "editor", "analyzer", "other"]),
-  inputType: z.enum(["text", "file", "number", "url", "mixed"]),
-  outputType: z.enum(["text", "file", "number", "image", "mixed"]),
+  category: z.enum(["converter","generator","calculator","editor","analyzer","other"]),
+  inputType: z.enum(["text","file","number","url","mixed"]),
+  outputType: z.enum(["text","file","number","image","mixed"]),
   features: z.array(z.string()).optional(),
   limitations: z.string().optional(),
 });
 
 // Guide/education content schema
 export const GuideSchema = BaseItemSchema.extend({
-  id: z.string().regex(/^[a-z0-9-]+$/, "ID must be lowercase alphanumeric with dashes only"),
+  id: z.string().regex(/^[a-z0-9-]+$/),
   title: z.string().min(1).max(100),
   description: z.string().min(30).max(400),
   content: z.string().min(100).max(10000), // Markdown content
