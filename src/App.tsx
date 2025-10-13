@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
-import Index from "./pages/Index";
-import GamesPage from "./pages/GamesPage";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -11,6 +9,8 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { UserPrefsProvider } from "@/contexts/UserPrefsContext";
 import { CommandPalette } from "@/components/CommandPalette";
 import { CoachMarks } from "@/components/CoachMarks";
+import Index from "./pages/Index";
+import GamesPage from "./pages/GamesPage";
 import GameDetailPage from "./pages/GameDetailPage";
 import UtilitiesPage from "./pages/UtilitiesPage";
 import UtilityDetailPage from "./pages/UtilityDetailPage";
