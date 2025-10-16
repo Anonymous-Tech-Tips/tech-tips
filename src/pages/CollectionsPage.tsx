@@ -183,7 +183,7 @@ const CollectionsPage: React.FC<CollectionsPageProps> = () => {
 
     const encoded = btoa(JSON.stringify(currentCollection));
     const baseUrl = window.location.origin;
-    return `${baseUrl}/Armaan-Tech-Tips/#/collections/${currentCollection.id}?data=${encoded}`;
+    return `${baseUrl}/Armaan-Tech-Tips/collections/${currentCollection.id}?data=${encoded}`;
   };
 
   // Copy share URL to clipboard
@@ -206,7 +206,7 @@ const CollectionsPage: React.FC<CollectionsPageProps> = () => {
         <SEO
           title={`${currentCollection.title} - Curated Collection | Armaan's Tech Tips`}
           description={currentCollection.description}
-          canonical={`https://subset28.github.io/Armaan-Tech-Tips/#/collections/${currentCollection.id}`}
+          canonical={`https://subset28.github.io/Armaan-Tech-Tips/collections/${currentCollection.id}`}
         />
 
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
@@ -338,7 +338,7 @@ const CollectionsPage: React.FC<CollectionsPageProps> = () => {
       <SEO
         title="My Collections - Curated Games & Tools | Armaan's Tech Tips"
         description="Create and share curated collections of your favorite games and utilities"
-        canonical="https://subset28.github.io/Armaan-Tech-Tips/#/collections"
+        canonical="https://subset28.github.io/Armaan-Tech-Tips/collections"
       />
 
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">

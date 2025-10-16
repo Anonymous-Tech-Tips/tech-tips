@@ -53,9 +53,8 @@ const UtilityDetailPage: React.FC<UtilityDetailPageProps> = () => {
 
   const handleUse = () => {
     if (!utility) return;
-    // Local tools use in-app routes (/#/utilities/...); external tools open new tab
-    if (utility.url.startsWith("/")) navigate(utility.url.replace('/#', ''));
-    else window.open(utility.url, "_blank", "noopener,noreferrer");
+    // All utilities now use plain paths (HashRouter adds # automatically)
+    navigate(utility.url);
   };
 
   if (!utility) {

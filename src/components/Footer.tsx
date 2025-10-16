@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
             📝 Suggestions
           </a>
           <a
-            href="/#/legal"
+            href="/legal"
             className={`hover:underline ${isAuthenticated ? "text-gamer-accent" : "text-primary"}`}
           >
             📋 Legal & Terms

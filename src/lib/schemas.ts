@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // Base schemas for common fields
 const UrlOrPath = z.string().refine(
-  s => /^https?:\/\//.test(s) || s.startsWith('/') || s.startsWith('#/'),
+  s => /^https?:\/\//.test(s) || s.startsWith('/'),
   { message: 'Must be an absolute URL or a site-relative path' }
 );
 
