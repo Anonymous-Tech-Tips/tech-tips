@@ -13,6 +13,8 @@
 
 **Production**: [https://subset28.github.io/Armaan-Tech-Tips/](https://subset28.github.io/Armaan-Tech-Tips/)
 
+> **🆕 Recently Fixed**: Complete HashRouter implementation with dual home routes for bulletproof GitHub Pages compatibility. All 404 issues resolved with proper React Router v6 patterns.
+
 ## ✨ What is this?
 
 Armaan's Tech Tips is a comprehensive web platform designed for students who need:
