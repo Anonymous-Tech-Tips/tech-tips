@@ -20,12 +20,17 @@ import LinksPage from "./pages/LinksPage";
 import UpdatesPage from "./pages/UpdatesPage";
 import SettingsPage from "./pages/SettingsPage";
 import LegalPage from "./pages/LegalPage";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const location = useLocation();
+
+  useEffect(() => {
+    logout(); // Log out the user on every route change
+  }, [location.pathname, logout]);
 
   useEffect(() => {
     if (!('serviceWorker' in navigator)) return;
