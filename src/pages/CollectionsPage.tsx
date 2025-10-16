@@ -22,7 +22,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import gamesData from "@/data/games.json";
 import utilitiesData from "@/data/utilities.json";
 import { SEO } from "@/components/SEO";
-import { hash } from '@/lib/paths';
+import { hash, canonical } from '@/lib/paths';
 
 interface CollectionItem {
   id: string;
@@ -206,7 +206,7 @@ const CollectionsPage: React.FC<CollectionsPageProps> = () => {
         <SEO
           title={`${currentCollection.title} - Curated Collection | Armaan's Tech Tips`}
           description={currentCollection.description}
-          canonical={`https://subset28.github.io/Armaan-Tech-Tips/collections/${currentCollection.id}`}
+          canonical={canonical(`/collections/${currentCollection.id}`)}
         />
 
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
@@ -338,7 +338,7 @@ const CollectionsPage: React.FC<CollectionsPageProps> = () => {
       <SEO
         title="My Collections - Curated Games & Tools | Armaan's Tech Tips"
         description="Create and share curated collections of your favorite games and utilities"
-        canonical="https://subset28.github.io/Armaan-Tech-Tips/collections"
+        canonical={canonical("/collections")}
       />
 
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
