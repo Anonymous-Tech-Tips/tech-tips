@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => ({
       manifest: {
         name: "Armaan's Tech Tips",
         short_name: "Tech Tips",
-        start_url: "/Armaan-Tech-Tips/",
+        start_url: "/Armaan-Tech-Tips/#/",
         display: "standalone",
         background_color: "#0b0b0b",
         theme_color: "#FFD84D",
