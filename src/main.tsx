@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { HashRouter } from "react-router-dom";
 import App from "./App";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { UserPrefsProvider } from "./contexts/UserPrefsContext";
 import "./index.css";
 
 // Register service worker for PWA
@@ -23,7 +24,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ErrorBoundary>
       <HashRouter>
-        <App />
+        <UserPrefsProvider>
+          <App />
+        </UserPrefsProvider>
       </HashRouter>
     </ErrorBoundary>
   </React.StrictMode>
