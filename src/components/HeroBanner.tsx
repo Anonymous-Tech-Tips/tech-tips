@@ -1,12 +1,12 @@
 import React from "react";
-import heroBanner from "@/assets/naruto-eating-food.gif";
+import heroBanner from "@/assets/halloween-banner.jpg";
 
 export const HeroBanner: React.FC = () => {
   return (
     <section id="home" className="relative w-full h-[400px] md:h-[500px] overflow-hidden">
       <img
         src={heroBanner}
-        alt="Naruto eating ramen"
+        alt="Halloween pumpkins with spooky atmosphere"
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-gamer-bg/40 via-transparent to-gamer-bg/60" />
