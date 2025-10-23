@@ -105,11 +105,12 @@ export const games: Game[] = [
     url: "https://vaz63.github.io/g5/class-409",
   },
   {
-    id: "basketball-legends",
-    title: "Basketball Legends",
-    tags: ["sports", "basketball"],
+    id: "basketball-stars",
+    title: "Basketball Stars",
+    tags: ["sports", "basketball", "arcade"],
     thumbnail: fallback,
-    url: "https://vaz63.github.io/g5/class-474",
+    url: "https://vaz63.github.io/g5/class-449",
+    featured: true,
   },
   {
     id: "tomb-of-mask",
