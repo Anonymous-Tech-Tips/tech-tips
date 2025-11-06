@@ -10,6 +10,8 @@ import { HeroBanner } from "@/components/HeroBanner";
 import { GamerHome } from "@/components/GamerHome";
 import { SEO } from "@/components/SEO";
 import { Footer } from "@/components/Footer";
+import { FallingLeaves } from "@/components/FallingLeaves";
+import { ThanksgivingCountdown } from "@/components/ThanksgivingCountdown";
 import { hash } from "@/lib/paths";
 import games from "@/data/games.json";
 import { thumb } from "@/lib/thumb";
@@ -37,16 +39,22 @@ const Index = () => {
 
       {isAuthenticated ? (
         <>
+          <FallingLeaves />
           {/* Gamer Mode Home */}
           <HeroBanner />
 
           <GamerHome />
 
+          {/* Thanksgiving Countdown */}
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <ThanksgivingCountdown />
+          </section>
+
           {/* Continue Playing Rail */}
           {continueItems.length > 0 && (
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <h2 className="text-2xl md:text-3xl font-rowdies font-bold text-gamer-text mb-6">
-                Continue Playing
+              <h2 className="text-2xl md:text-3xl font-rowdies font-bold text-gamer-text mb-6 flex items-center gap-2">
+                🎮 Continue Playing
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {continueItems.slice(0, 12).map(game => (
@@ -81,8 +89,8 @@ const Index = () => {
           {/* Favorites Rail */}
           {favItems.length > 0 && (
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <h2 className="text-2xl md:text-3xl font-rowdies font-bold text-gamer-text mb-6">
-                Your Favorites
+              <h2 className="text-2xl md:text-3xl font-rowdies font-bold text-gamer-text mb-6 flex items-center gap-2">
+                ⭐ Your Favorites
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {favItems.slice(0, 12).map(game => (
@@ -116,8 +124,8 @@ const Index = () => {
 
           {/* Quick Access Cards for Gamer Mode */}
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <h2 className="text-3xl md:text-4xl font-rowdies font-bold text-gamer-text text-center mb-12">
-              Quick Access
+            <h2 className="text-3xl md:text-4xl font-rowdies font-bold text-gamer-text text-center mb-12 flex items-center justify-center gap-3">
+              <span>🍂</span> Quick Access <span>🦃</span>
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -182,10 +190,25 @@ const Index = () => {
       ) : (
         <>
           {/* Public Home Page */}
+          <div className="py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <h1 className="text-4xl md:text-5xl font-rowdies font-bold text-foreground mb-4 flex items-center justify-center gap-3">
+                <span>🦃</span> Welcome to Armaan's Tech Tips <span>🍂</span>
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                Your cozy corner for tech tools, tips, and tricks this Thanksgiving season
+              </p>
+            </div>
+            
+            <div className="max-w-3xl mx-auto mb-12">
+              <ThanksgivingCountdown />
+            </div>
+          </div>
+
           <ContentSection
             id="utilities"
             icon={Wrench}
-            title="Utilities"
+            title="🍁 Utilities"
             description="Essential tools and utilities to enhance your experience"
             items={[
               { text: "🔐 Password Generator", utility: "password" },
@@ -201,7 +224,7 @@ const Index = () => {
           <ContentSection
             id="pc-optimizations"
             icon={Cpu}
-            title="PC Optimizations"
+            title="🌰 PC Optimizations"
             description="Tips and tricks to keep your PC running smoothly"
             items={[
               { text: "📋 Complete Optimization Guide", guide: "complete-guide" },
@@ -222,7 +245,7 @@ const Index = () => {
           <ContentSection
             id="education"
             icon={GraduationCap}
-            title="Education"
+            title="📚 Education"
             description="Learning resources and educational content"
             items={[
               { text: "🧮 Course Grade Calculator", url: "https://www.desmos.com/calculator/wrmalnmnpj" },
@@ -239,7 +262,7 @@ const Index = () => {
           <ContentSection
             id="other"
             icon={MoreHorizontal}
-            title="Other"
+            title="🍽️ Other"
             description="Additional resources and interesting finds"
             items={[
               { text: "👨‍💻 About Me", guide: "about-me" },

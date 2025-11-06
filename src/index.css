@@ -75,6 +75,23 @@ All colors MUST be HSL.
       transform: translateY(-15px) translateX(-5px) rotate(-1deg) scale(1.01);
     }
   }
+
+  @keyframes fall {
+    0% {
+      transform: translateY(-100px) translateX(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) translateX(100px) rotate(360deg);
+      opacity: 0.7;
+    }
+  }
+}
+
+@layer utilities {
+  .animate-fall {
+    animation: fall linear infinite;
+  }
 }
 
 @layer base {
