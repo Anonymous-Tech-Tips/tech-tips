@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { UserPrefsProvider } from "@/contexts/UserPrefsContext";
 import { CommandPalette } from "@/components/CommandPalette";
 import { CoachMarks } from "@/components/CoachMarks";
+import { HiddenPumpkin } from "@/components/HiddenPumpkin";
 import Index from "./pages/Index";
 import GamesPage from "./pages/GamesPage";
 import GameDetailPage from "./pages/GameDetailPage";
@@ -100,6 +101,9 @@ const App = () => {
           <UserPrefsProvider>
             <Toaster />
             <Sonner />
+            <CommandPalette />
+            <CoachMarks />
+            <HiddenPumpkin />
             <AppContent />
           </UserPrefsProvider>
         </AuthProvider>
