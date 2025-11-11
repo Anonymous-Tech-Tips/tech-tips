@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, X } from 'lucide-react';
+import { Gift, X, Coins, Star } from 'lucide-react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
+import { toast } from 'sonner';
 
 interface DailyRewardProps {
   streakCount: number;
@@ -22,10 +23,31 @@ export function DailyReward({ streakCount }: DailyRewardProps) {
     }
   }, []);
 
+  const getRewardAmount = () => {
+    if (streakCount >= 100) return 1000;
+    if (streakCount >= 30) return 500;
+    if (streakCount >= 7) return 200;
+    return 50;
+  };
+
   const handleClaim = () => {
     const today = new Date().toDateString();
     localStorage.setItem('lastDailyReward', today);
+    
+    // Store accumulated points
+    const currentPoints = parseInt(localStorage.getItem('rewardPoints') || '0');
+    const reward = getRewardAmount();
+    const newTotal = currentPoints + reward;
+    localStorage.setItem('rewardPoints', newTotal.toString());
+    
     setClaimed(true);
+    
+    // Show success toast
+    toast.success(`🎁 +${reward} points earned!`, {
+      description: `Total: ${newTotal} points`,
+      duration: 3000,
+    });
+    
     setTimeout(() => setShowReward(false), 1500);
   };
 
@@ -90,6 +112,10 @@ export function DailyReward({ streakCount }: DailyRewardProps) {
                     <p className="text-gamer-muted">
                       Day {streakCount} Streak Reward
                     </p>
+                    <div className="mt-4 flex items-center justify-center gap-2 text-amber-400 text-2xl font-bold">
+                      <Coins className="h-6 w-6" />
+                      <span>+{getRewardAmount()} Points</span>
+                    </div>
                   </div>
 
                   <Button

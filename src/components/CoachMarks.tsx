@@ -94,29 +94,7 @@ export const CoachMarks: React.FC<CoachMarksProps> = () => {
   };
 
   if (isComplete) {
-    return (
-      <div className="fixed bottom-4 right-4 z-40">
-        <Card className="bg-white/10 border-white/20 max-w-sm">
-          <CardContent className="pt-4">
-            <div className="flex items-center gap-2 text-green-400 mb-2">
-              <CheckCircle className="h-5 w-5" />
-              <span className="text-sm font-medium text-white">Welcome aboard!</span>
-            </div>
-            <p className="text-sm text-gray-300 mb-3">
-              You've completed the tour. Ready to explore?
-            </p>
-            <div className="flex gap-2">
-              <Button size="sm" onClick={handleRestart} variant="outline" className="flex-1">
-                Restart Tour
-              </Button>
-              <Button size="sm" onClick={() => setIsComplete(false)} className="flex-1">
-                Continue
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return null; // Just dismiss completely, no "Welcome aboard" message
   }
 
   if (!isVisible) return null;

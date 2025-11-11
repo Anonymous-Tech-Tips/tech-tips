@@ -95,26 +95,34 @@ const EntertainmentPage: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Legal Disclaimer */}
+        {/* Legal Disclaimer - Collapsible */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mb-8"
         >
-          <Alert className="bg-amber-950/30 border-2 border-amber-600/80">
-            <AlertTriangle className="h-5 w-5 text-amber-400" />
-            <AlertDescription className="text-sm text-amber-100/90 leading-relaxed">
-              <strong className="font-bold text-amber-50">IMPORTANT LEGAL DISCLAIMER:</strong>
-              <br /><br />
-              These links are provided for educational and informational purposes only. 
-              We are not responsible for the content, availability, or legality of third-party services. 
-              Users are responsible for complying with their school&apos;s policies and applicable copyright laws. 
-              By accessing these links, you acknowledge that you use them at your own risk. 
-              We do not host, distribute, or control any of the linked content and cannot be held liable for any issues arising from their use.
-              Always respect content creators and consider supporting official streaming services.
-            </AlertDescription>
-          </Alert>
+          <details className="group">
+            <summary className="cursor-pointer list-none">
+              <div className="flex items-center gap-2 text-amber-400 text-sm font-medium hover:text-amber-300 transition-colors">
+                <AlertTriangle className="h-4 w-4" />
+                <span>Legal Disclaimer (click to expand)</span>
+                <span className="ml-auto group-open:rotate-180 transition-transform">▼</span>
+              </div>
+            </summary>
+            <Alert className="mt-2 bg-amber-950/30 border-2 border-amber-600/80">
+              <AlertDescription className="text-xs text-amber-100/90 leading-relaxed">
+                <strong className="font-bold text-amber-50">IMPORTANT LEGAL DISCLAIMER:</strong>
+                <br /><br />
+                These links are provided for educational and informational purposes only. 
+                We are not responsible for the content, availability, or legality of third-party services. 
+                Users are responsible for complying with their school&apos;s policies and applicable copyright laws. 
+                By accessing these links, you acknowledge that you use them at your own risk. 
+                We do not host, distribute, or control any of the linked content and cannot be held liable for any issues arising from their use.
+                Always respect content creators and consider supporting official streaming services.
+              </AlertDescription>
+            </Alert>
+          </details>
         </motion.div>
 
         {/* Usage Guidelines */}

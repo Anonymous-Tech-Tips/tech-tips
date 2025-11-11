@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, X, Command } from "lucide-react";
+import { Menu, X, Command, Coins } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoginModal } from "./LoginModal";
@@ -12,6 +12,20 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [points, setPoints] = useState(() => parseInt(localStorage.getItem('rewardPoints') || '0'));
+
+  // Update points when localStorage changes
+  React.useEffect(() => {
+    const handleStorage = () => {
+      setPoints(parseInt(localStorage.getItem('rewardPoints') || '0'));
+    };
+    window.addEventListener('storage', handleStorage);
+    const interval = setInterval(handleStorage, 1000); // Check every second
+    return () => {
+      window.removeEventListener('storage', handleStorage);
+      clearInterval(interval);
+    };
+  }, []);
 
   const navLinks = [
     { label: "Home", href: "/", isRoute: true },
@@ -117,6 +131,12 @@ export const Navbar: React.FC = () => {
 
             {/* Auth Button & Actions */}
             <div className="hidden md:flex items-center gap-2">
+              {isAuthenticated && points > 0 && (
+                <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-gamer-accent/20 border border-gamer-accent/30">
+                  <Coins className="h-4 w-4 text-amber-400" />
+                  <span className="text-sm font-bold text-amber-400">{points}</span>
+                </div>
+              )}
               <StreakBadge />
               <Button
                 variant="ghost"
