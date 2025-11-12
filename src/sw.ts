@@ -3,25 +3,25 @@ import { precacheAndRoute, createHandlerBoundToURL, cleanupOutdatedCaches } from
 import { registerRoute, NavigationRoute } from 'workbox-routing';
 import { NetworkFirst } from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
+import { clientsClaim } from 'workbox-core';
 
 declare const self: ServiceWorkerGlobalScope;
 
 // Cache version - increment this with each deployment
 const CACHE_VERSION = 'v8';
 
+// Skip waiting on install
+self.skipWaiting();
+clientsClaim();
+
 // Clean up old caches automatically
 cleanupOutdatedCaches();
 
-// Skip waiting and take control immediately
+// Skip waiting message handler
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-});
-
-// Take control of all clients immediately
-self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
 });
 
 // self.__WB_MANIFEST is injected by vite-plugin-pwa
@@ -43,8 +43,7 @@ registerRoute(
     plugins: [
       new ExpirationPlugin({ 
         maxEntries: 200, 
-        maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days instead of 30
-        purgeOnQuotaError: true 
+        maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days instead of 30
       })
     ],
   })
