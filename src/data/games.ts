@@ -99,7 +99,14 @@ export const games: Game[] = [
     featured: true,
   },
 
-  // --- 🎮 All Games (Alphabetically Organized) ---
+  // --- 🎮 All Games (Alphabetical) ---
+  {
+    id: 'ovo',
+    title: 'Ovo',
+    tags: ['action', 'adventure', 'platformer'],
+    thumbnail: fallback,
+    url: 'https://vaz63.github.io/g5/class-456',
+  },
   {
     id: "basket-bros",
     title: "Basket Bros",

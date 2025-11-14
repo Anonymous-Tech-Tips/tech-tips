@@ -1,1 +1,0 @@
-if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/Armaan-Tech-Tips/sw.js', { scope: '/Armaan-Tech-Tips/' })})}
