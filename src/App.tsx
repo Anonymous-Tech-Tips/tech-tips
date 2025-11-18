@@ -81,8 +81,8 @@ const AppContent = () => {
       <div className="relative min-h-screen">
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route index element={<ProtectedRoute><Index /></ProtectedRoute>} />
-          <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+          <Route index element={<Index />} />
+          <Route path="/" element={<Index />} />
           <Route path="/games" element={<ProtectedRoute><GamesPage /></ProtectedRoute>} />
           <Route path="/games/:id" element={<ProtectedRoute><GameDetailPage /></ProtectedRoute>} />
           <Route path="/entertainment" element={<ProtectedRoute><EntertainmentPage /></ProtectedRoute>} />
