@@ -18,7 +18,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/games");
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
@@ -30,7 +30,7 @@ const LoginPage = () => {
     const result = await login(email, password);
     
     if (result.success) {
-      navigate("/games");
+      navigate("/");
     } else {
       setError(result.error || "Login failed");
       setLoading(false);
