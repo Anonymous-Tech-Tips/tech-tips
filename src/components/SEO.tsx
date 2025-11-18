@@ -11,7 +11,7 @@ interface SEOProps {
 }
 
 export const SEO: React.FC<SEOProps> = ({
-  title = "Armaan's Tech Tips - Best Unblocked Games Hub | Free Gaming Site 2025",
+  title = "Tech Tips - Best Unblocked Games Hub | Free Gaming Site 2025",
   description = "🎮 #1 Unblocked Games Site! Play 100+ free games instantly - no downloads needed. Featuring popular titles, utility tools, PC optimization guides & exclusive gaming content. Start playing now!",
   keywords = "unblocked games, free online games, school games unblocked, gaming hub 2025, play games online free, best unblocked games site, no download games, browser games, student games, retro bowl unblocked, slope unblocked, gaming website, pc optimization, tech utilities, password generator, qr code generator, gaming tips, tech tips, free utilities, windows optimization, gaming guides, educational games, study tools, tech hub, game collection, instant play games, web games, casual games, addictive games",
   ogImage = "/placeholder.svg",
@@ -44,7 +44,7 @@ export const SEO: React.FC<SEOProps> = ({
     // Standard meta tags
     updateMetaTag('description', description);
     updateMetaTag('keywords', keywords);
-    updateMetaTag('author', 'Armaan');
+    updateMetaTag('author', 'Tech Tips');
     updateMetaTag('robots', 'index, follow');
     updateMetaTag('viewport', 'width=device-width, initial-scale=1.0');
 
@@ -57,7 +57,7 @@ export const SEO: React.FC<SEOProps> = ({
     updateMetaTag('og:image:width', '1200', true);
     updateMetaTag('og:image:height', '630', true);
     updateMetaTag('og:image:alt', title, true);
-    updateMetaTag('og:site_name', "Armaan's Tech Tips", true);
+    updateMetaTag('og:site_name', "Tech Tips", true);
 
     // Twitter Card tags
     updateMetaTag('twitter:card', 'summary_large_image');
@@ -83,7 +83,7 @@ export const SEO: React.FC<SEOProps> = ({
           "@type": "WebSite",
           "@id": `${baseUrl}/#website`,
           "url": baseUrl,
-          "name": "Armaan's Tech Tips",
+          "name": "Tech Tips",
           "description": description,
           "publisher": {
             "@id": `${baseUrl}/#organization`
@@ -100,15 +100,12 @@ export const SEO: React.FC<SEOProps> = ({
         {
           "@type": "Organization",
           "@id": `${baseUrl}/#organization`,
-          "name": "Armaan's Tech Tips",
+          "name": "Tech Tips",
           "url": baseUrl,
           "logo": {
             "@type": "ImageObject",
             "url": `${baseUrl}/og-banner.png`
-          },
-          "sameAs": [
-            "https://github.com/Subset28/Armaan-Tech-Tips"
-          ]
+          }
         },
         {
           "@type": "WebPage",

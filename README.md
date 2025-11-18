@@ -1,13 +1,13 @@
-# 🎮 Armaan's Tech Tips
+# 🎮 Tech Tips
 
 [![Live Site](https://img.shields.io/badge/Live-Site-orange?style=flat&logo=github)](https://subset28.github.io/Armaan-Tech-Tips/)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Subset28/Armaan-Tech-Tips)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Last Commit](https://img.shields.io/badge/last_updated-$(date +%b_%d_%Y)-blue)](https://github.com/Subset28/Armaan-Tech-Tips/commits/main)
 
-> Your ultimate tech hub for students — featuring unblocked games, essential utilities, PC optimization guides, and educational resources. Built by a student, for students.
+> Your ultimate tech hub for students — featuring unblocked games, essential utilities, PC optimization guides, and educational resources.
 
-![Armaan's Tech Tips Preview](docs/preview.png)
+![Tech Tips Preview](docs/preview.png)
 
 ## 🚀 Live Demo
 
@@ -17,7 +17,7 @@
 
 ## ✨ What is this?
 
-Armaan's Tech Tips is a comprehensive web platform designed for students who need:
+Tech Tips is a comprehensive web platform designed for students who need:
 - 🎮 **Unblocked Games** - Play popular games during free time
 - 🛠️ **Essential Utilities** - Password generator, QR codes, color picker, text converters
 - ⚡ **PC Optimization** - Performance tips and Windows optimization guides
@@ -76,7 +76,7 @@ Armaan's Tech Tips is a comprehensive web platform designed for students who nee
 ## 📂 Project Structure
 
 ```
-Armaan-Tech-Tips/
+tech-tips/
 ├── src/
 │   ├── components/          # Reusable UI components
 │   │   ├── ui/             # shadcn/ui base components
@@ -341,7 +341,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 💡 Credits & Acknowledgments
 
-- **Created by**: Armaan (student developer)
+- **Created by**: Student developers
 - **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
 - **Icons**: [Lucide Icons](https://lucide.dev/)
 - **Fonts**: Google Fonts (Rowdies)
@@ -366,6 +366,4 @@ If you find this project helpful:
 
 ---
 
-**Made with ❤️ by a fellow student who loves tech!**
-
-*Last updated: 2025-01-13*
+*Open source tech resources for students*
