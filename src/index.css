@@ -25,7 +25,7 @@ All colors MUST be HSL.
     --secondary-foreground: 25 30% 20%;
 
     --muted: 35 35% 90%;
-    --muted-foreground: 25 20% 45%;
+    --muted-foreground: 25 30% 35%;
 
     --accent: 38 90% 62%;
     --accent-foreground: 25 30% 20%;
@@ -45,7 +45,7 @@ All colors MUST be HSL.
     --gamer-accent: 28 85% 65%;
     --gamer-card: 25 20% 25%;
     --gamer-border: 30 18% 45%;
-    --gamer-muted: 30 15% 65%;
+    --gamer-muted: 30 25% 75%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
