@@ -16,6 +16,7 @@ import { ThanksgivingCountdown } from "@/components/ThanksgivingCountdown";
 import { DailyReward } from "@/components/DailyReward";
 import { hash } from "@/lib/paths";
 import { games } from "@/data/games";
+import fallbackThumbnail from "@/assets/thumbnails/_fallback.png";
 
 const Index = () => {
   const { isAuthenticated } = useAuth();
@@ -77,7 +78,7 @@ const Index = () => {
                                transition-all duration-normal hover:border-gamer-accent hover:shadow-lg hover:shadow-gamer-accent/20 hover:-translate-y-1"
                     >
                       <img
-                        src={game.thumbnail}
+                        src={game.thumbnail || fallbackThumbnail}
                         alt={game.title}
                         className={`w-full h-20 object-cover rounded mb-2 ${prefs.settings.studyMode ? 'blur-sm contrast-50' : ''}`}
                       />
@@ -114,7 +115,7 @@ const Index = () => {
                              transition-all duration-normal hover:border-gamer-accent hover:shadow-lg hover:shadow-gamer-accent/20 hover:-translate-y-1"
                   >
                     <img
-                      src={game.thumbnail}
+                      src={game.thumbnail || fallbackThumbnail}
                       alt={game.title}
                       className={`w-full h-20 object-cover rounded mb-2 ${prefs.settings.studyMode ? 'blur-sm contrast-50' : ''}`}
                     />

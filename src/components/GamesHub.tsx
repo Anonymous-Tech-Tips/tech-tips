@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { Search, Gamepad2 } from "lucide-react";
 import { games, type Game } from "@/data/games";
+import fallbackThumbnail from "@/assets/thumbnails/_fallback.png";
 import { Input } from "./ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 import { Badge } from "./ui/badge";
@@ -117,7 +118,7 @@ const GameCard: React.FC<{ game: Game }> = ({ game }) => {
     <div className="group bg-gamer-card border border-gamer-border rounded-lg overflow-hidden transition-all duration-normal hover:border-gamer-accent hover:shadow-lg hover:shadow-gamer-accent/20 hover:-translate-y-1">
       <div className="aspect-video overflow-hidden bg-gamer-bg">
         <img
-          src={game.thumbnail}
+          src={game.thumbnail || fallbackThumbnail}
           alt={`${game.title} game thumbnail`}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
