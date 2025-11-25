@@ -8,6 +8,7 @@ import { hash, asset, canonical } from '@/lib/paths';
 import { thumb } from '@/lib/thumb';
 import { SEO } from '@/components/SEO';
 import { similarItems } from '@/utils/similarity';
+import { openGameSandbox } from '@/utils/openGameSandbox';
 
 export default function GameDetailPage() {
   const { id } = useParams(); // id === slug/id in games.json
@@ -19,7 +20,7 @@ export default function GameDetailPage() {
   const fav = prefs.favorites.includes(game.id);
   const play = () => {
     pushHistory(game.id, 'game');
-    window.open(game.url, '_blank', 'noopener,noreferrer');
+    openGameSandbox(game.url);
   };
   const share = async () => {
     const url = canonical(`/games/${game.id}`);
