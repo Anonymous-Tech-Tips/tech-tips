@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ExternalLink, AlertTriangle, Tv, Film, Popcorn } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { motion } from "framer-motion";
-
+import { openGameSandbox } from "@/utils/openGameSandbox";
 const streamingServices = [
   {
     name: "Netflix (Google Slides)",
@@ -173,25 +173,7 @@ const EntertainmentPage: React.FC = () => {
               >
                 <Card 
                   className="bg-gamer-card border-gamer-border hover:border-gamer-accent transition-all duration-normal h-full cursor-pointer group"
-                  onClick={() => {
-                    const newWindow = window.open('about:blank');
-                    if (newWindow) {
-                      newWindow.document.write(`
-                        <!DOCTYPE html>
-                        <html>
-                          <head>
-                            <meta name="referrer" content="no-referrer">
-                            <meta http-equiv="refresh" content="0; url=${service.url}">
-                            <title>Loading...</title>
-                          </head>
-                          <body>
-                            <script>window.location.href = '${service.url}';</script>
-                          </body>
-                        </html>
-                      `);
-                      newWindow.document.close();
-                    }
-                  }}
+                  onClick={() => openGameSandbox(service.url)}
                 >
                   <div className="block h-full">
                     <CardHeader>
