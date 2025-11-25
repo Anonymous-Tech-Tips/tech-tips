@@ -171,13 +171,16 @@ const EntertainmentPage: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Card className="bg-gamer-card border-gamer-border hover:border-gamer-accent transition-all duration-normal h-full cursor-pointer group">
-                  <a 
-                    href={service.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block h-full"
-                  >
+                <Card 
+                  className="bg-gamer-card border-gamer-border hover:border-gamer-accent transition-all duration-normal h-full cursor-pointer group"
+                  onClick={() => {
+                    const newWindow = window.open('about:blank');
+                    if (newWindow) {
+                      newWindow.location.href = service.url;
+                    }
+                  }}
+                >
+                  <div className="block h-full">
                     <CardHeader>
                       <CardTitle className="text-gamer-text flex items-center gap-2 group-hover:text-gamer-accent transition-colors">
                         <span className="text-3xl">{service.icon}</span>
@@ -194,7 +197,7 @@ const EntertainmentPage: React.FC = () => {
                         <ExternalLink className="h-3 w-3" />
                       </div>
                     </CardContent>
-                  </a>
+                  </div>
                 </Card>
               </motion.div>
             ))}
