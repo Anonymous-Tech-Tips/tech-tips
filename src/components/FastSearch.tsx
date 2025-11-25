@@ -6,9 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import gamesData from "@/data/games.json";
+import { games } from "@/data/games";
 import utilitiesData from "@/data/utilities.json";
 import guidesData from "@/data/guides.json";
+
+const gamesData = games;
 
 interface SearchItem {
   id: string;
@@ -43,9 +45,9 @@ const FastSearch: React.FC<FastSearchProps> = ({ isOpen, onClose }) => {
       ...gamesData.map(game => ({
         id: game.id,
         title: game.title,
-        description: game.description,
+        description: `Play ${game.title} - ${game.tags.join(', ')}`,
         type: 'game' as const,
-        category: game.category,
+        category: game.tags[0] || 'game',
         tags: game.tags,
         slug: game.id,
         featured: game.featured
