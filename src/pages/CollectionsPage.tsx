@@ -19,10 +19,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import gamesData from "@/data/games.json";
+import { games } from "@/data/games";
 import utilitiesData from "@/data/utilities.json";
 import { SEO } from "@/components/SEO";
 import { hash, canonical } from '@/lib/paths';
+
+const gamesData = games;
 
 interface CollectionItem {
   id: string;
