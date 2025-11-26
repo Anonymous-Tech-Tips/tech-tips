@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { writeFileSync } from 'fs';
+import { writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import games from '../src/data/games.json' assert { type: 'json' };
@@ -46,5 +46,7 @@ ${all.map(u => `  <url>
 </urlset>`;
 
 const out = join(__dirname, '../dist/sitemap.xml');
+const outDir = dirname(out);
+mkdirSync(outDir, { recursive: true });
 writeFileSync(out, sitemap);
 console.log(`✅ Sitemap written: ${out} (${all.length} urls)`);
