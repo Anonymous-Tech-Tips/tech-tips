@@ -154,12 +154,11 @@ const Index = () => {
               <span>🎄</span> Quick Access <span>🎅</span>
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 { to: "/games", icon: Gamepad2, title: "Games Hub", desc: "Browse and play games", delay: 0 },
                 { to: "/utilities", icon: Wrench, title: "Utilities", desc: "Essential tools and utilities", delay: 0.1 },
-                { to: "/optimizations", icon: Cpu, title: "PC Optimizations", desc: "Tips and tricks for your PC", delay: 0.2 },
-                { to: "/education", icon: GraduationCap, title: "Education", desc: "Learning resources and content", delay: 0.3 }
+                { to: "/optimizations", icon: Cpu, title: "PC Optimizations", desc: "Tips and tricks for your PC", delay: 0.2 }
               ].map((item, idx) => (
                 <motion.div
                   key={item.to}
