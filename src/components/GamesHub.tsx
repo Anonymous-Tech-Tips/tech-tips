@@ -8,6 +8,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { GameButton } from "./GameButton";
 import { toast } from "sonner";
+import { InContentAd } from "./GoogleAd";
 
 export const GamesHub: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -115,10 +116,14 @@ Visit Tech Tips: ${window.location.origin}/Anonymous-Tech-Tips/
 
           <TabsContent value="popular">
             <GameGrid games={popularGames} />
+            {/* Ad after popular games */}
+            <InContentAd className="mt-8" />
           </TabsContent>
 
           <TabsContent value="all">
             <GameGrid games={filteredGames} />
+            {/* Ad after all games */}
+            <InContentAd className="mt-8" />
           </TabsContent>
         </Tabs>
       </div>

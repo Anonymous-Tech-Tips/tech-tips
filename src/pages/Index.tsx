@@ -1,5 +1,6 @@
 import React from "react";
 import { Wrench, Cpu, GraduationCap, MoreHorizontal, Gamepad2 } from "lucide-react";
+import { TopBannerAd, InContentAd, BottomAd } from "@/components/GoogleAd";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -53,6 +54,9 @@ const Index = () => {
             <ThanksgivingCountdown />
           </section>
 
+          {/* Top Banner Ad - slim, non-intrusive */}
+          <TopBannerAd />
+
           {/* Continue Playing Rail */}
           {continueItems.length > 0 && (
             <motion.section 
@@ -99,6 +103,9 @@ const Index = () => {
               </div>
             </motion.section>
           )}
+
+          {/* In-content ad after Continue Playing */}
+          {continueItems.length > 0 && <InContentAd />}
 
           {/* Favorites Rail */}
           {favItems.length > 0 && (
@@ -179,6 +186,9 @@ const Index = () => {
               ))}
             </div>
           </motion.section>
+
+          {/* Bottom Ad */}
+          <BottomAd />
         </>
       ) : (
         <>
@@ -213,6 +223,9 @@ const Index = () => {
               { text: "📅 LCPS Calendars", url: "https://www.lcps.org/documents/discover-lcps/about-loudoun/calendars---loudoun-county-public-schools/629038" },
             ]}
           />
+
+          {/* In-content ad after Utilities section */}
+          <InContentAd />
 
           <ContentSection
             id="pc-optimizations"
@@ -251,6 +264,9 @@ const Index = () => {
               { text: "🖥️ Tech Concepts Explained", guide: "tech-concepts" },
             ]}
           />
+
+          {/* In-content ad after Education section */}
+          <InContentAd />
 
           <ContentSection
             id="other"
