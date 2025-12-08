@@ -4,7 +4,22 @@ export function openGameSandbox(realUrl: string) {
   const win = window.open("about:blank", "_blank");
   if (!win) return;
 
-  // Use location.replace to navigate without adding to history
-  // This hides the referrer while avoiding iframe restrictions
-  win.location.replace(realUrl);
+  // Write a full HTML page with an iframe to the game
+  win.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loading...</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a0a; overflow: hidden; }
+    iframe { width: 100vw; height: 100vh; border: none; }
+  </style>
+</head>
+<body>
+  <iframe src="${realUrl}" allowfullscreen></iframe>
+</body>
+</html>
+  `);
+  win.document.close();
 }
