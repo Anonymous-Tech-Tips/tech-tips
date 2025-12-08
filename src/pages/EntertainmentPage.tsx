@@ -58,17 +58,38 @@ const streamingServices = [
     description: "Stream Hulu originals and network shows",
   },
   {
-    name: "YouTube",
-    url: "https://docs.google.com/presentation/d/1DPscrn5ZTcUj5sbsMM1LeC1hhd2vE_kZfF9xTmY1Xgw/edit#slide=id.g25ece339069_2_71",
-    icon: "▶️",
-    description: "Watch YouTube videos and content",
-  },
-  {
     name: "The Divine Depths",
     url: "https://docs.google.com/document/d/1D9ruLVUZ9k9AmGDf52p0oTlRTnGd_zmYx2v6NoE2dbM/edit?tab=t.qdnbynrjz9av",
     icon: "⚔️",
     description: "Ultimate hub - Games, Movies, Shows & Music all in one place",
   },
+];
+
+// Sites requiring unblocker (starred from FMHY)
+const unblockerAnime = [
+  { name: "AnimeKai", url: "https://animekai.to/", icon: "🎌", description: "Hard Subs / Dub / Auto-Next" },
+  { name: "Miruro", url: "https://miruro.tv/", icon: "✨", description: "Hard Subs / Dub / Auto-Next" },
+  { name: "HiAnime", url: "https://hianime.to/", icon: "🔥", description: "Sub / Dub / Auto-Next" },
+];
+
+const unblockerShows = [
+  { name: "Cineby", url: "https://cineby.app/", icon: "🎬", description: "Movies / TV / Anime / Auto-Next" },
+  { name: "Rive", url: "https://rfrsh.rive.app/", icon: "🌊", description: "Movies / TV / Anime / Auto-Next" },
+  { name: "Flixer", url: "https://flixer.vip/", icon: "📺", description: "Movies / TV / Anime / Auto-Next" },
+  { name: "VeloraTV", url: "https://veloratv.su/", icon: "⚡", description: "Movies / TV / Anime / Auto-Next" },
+  { name: "Aether", url: "https://aether.mom/", icon: "🌌", description: "Movies / TV / Anime / Auto-Next" },
+];
+
+const unblockerSports = [
+  { name: "SportyHunter", url: "https://sporty.hunter.net/", icon: "🏆", description: "Live Sports Aggregator" },
+  { name: "Streamed", url: "https://streamed.su/", icon: "📡", description: "Live Sports Streams" },
+  { name: "DaddyLive", url: "https://daddylive.mp/", icon: "📺", description: "TV / Live Sports" },
+  { name: "SportsBite", url: "https://sportsbite.tv/", icon: "🏈", description: "Live Sports Streams" },
+  { name: "StreamEast", url: "https://streameast.app/", icon: "🌅", description: "Live Sports Aggregator" },
+  { name: "Sportsurge", url: "https://v2.sportsurge.net/", icon: "🌊", description: "Sports Aggregator" },
+  { name: "CrackStreams", url: "https://crackstreams.biz/", icon: "💥", description: "Live Sports / MMA / Boxing" },
+  { name: "NFLBite", url: "https://nflbite.com/", icon: "🏈", description: "NFL Streams" },
+  { name: "NBAMonster", url: "https://nbamonster.xyz/", icon: "🏀", description: "Basketball Streams" },
 ];
 
 const EntertainmentPage: React.FC = () => {
@@ -207,6 +228,128 @@ const EntertainmentPage: React.FC = () => {
                 </Card>
               </motion.div>
             ))}
+          </div>
+        </motion.div>
+
+        {/* Unblocker Required Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-12"
+        >
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-rowdies font-bold text-gamer-text mb-2">
+              🔓 Unbl0cker Required
+            </h2>
+            <p className="text-gamer-muted text-sm">
+              These sites may require a proxy/unblocker to access. Check the Utilities page for VPN & Proxy options.
+            </p>
+          </div>
+
+          {/* Anime Section */}
+          <div className="mb-8">
+            <h3 className="text-2xl font-rowdies font-semibold text-gamer-accent mb-4 flex items-center gap-2">
+              🎌 Anime Streaming
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {unblockerAnime.map((service, index) => (
+                <motion.div
+                  key={service.name}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Card 
+                    className="bg-gamer-card/70 border-gamer-border hover:border-purple-500 transition-all duration-normal cursor-pointer group"
+                    onClick={() => openGameSandbox(service.url)}
+                  >
+                    <CardHeader className="py-4">
+                      <CardTitle className="text-gamer-text flex items-center gap-2 text-lg group-hover:text-purple-400 transition-colors">
+                        <span className="text-2xl">{service.icon}</span>
+                        <span className="flex-1">{service.name}</span>
+                        <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </CardTitle>
+                      <CardDescription className="text-gamer-muted text-xs">
+                        {service.description}
+                      </CardDescription>
+                    </CardHeader>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Shows & Movies Section */}
+          <div className="mb-8">
+            <h3 className="text-2xl font-rowdies font-semibold text-gamer-accent mb-4 flex items-center gap-2">
+              📺 Shows & Movies
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {unblockerShows.map((service, index) => (
+                <motion.div
+                  key={service.name}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Card 
+                    className="bg-gamer-card/70 border-gamer-border hover:border-blue-500 transition-all duration-normal cursor-pointer group"
+                    onClick={() => openGameSandbox(service.url)}
+                  >
+                    <CardHeader className="py-4">
+                      <CardTitle className="text-gamer-text flex items-center gap-2 text-lg group-hover:text-blue-400 transition-colors">
+                        <span className="text-2xl">{service.icon}</span>
+                        <span className="flex-1">{service.name}</span>
+                        <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </CardTitle>
+                      <CardDescription className="text-gamer-muted text-xs">
+                        {service.description}
+                      </CardDescription>
+                    </CardHeader>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Live Sports Section */}
+          <div className="mb-8">
+            <h3 className="text-2xl font-rowdies font-semibold text-gamer-accent mb-4 flex items-center gap-2">
+              🏆 Live Sports
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {unblockerSports.map((service, index) => (
+                <motion.div
+                  key={service.name}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Card 
+                    className="bg-gamer-card/70 border-gamer-border hover:border-green-500 transition-all duration-normal cursor-pointer group"
+                    onClick={() => openGameSandbox(service.url)}
+                  >
+                    <CardHeader className="py-4">
+                      <CardTitle className="text-gamer-text flex items-center gap-2 text-lg group-hover:text-green-400 transition-colors">
+                        <span className="text-2xl">{service.icon}</span>
+                        <span className="flex-1">{service.name}</span>
+                        <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </CardTitle>
+                      <CardDescription className="text-gamer-muted text-xs">
+                        {service.description}
+                      </CardDescription>
+                    </CardHeader>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </motion.div>
 
