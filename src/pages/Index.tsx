@@ -12,8 +12,8 @@ import { HeroBanner } from "@/components/HeroBanner";
 import { GamerHome } from "@/components/GamerHome";
 import { SEO } from "@/components/SEO";
 import { Footer } from "@/components/Footer";
-import { FallingLeaves } from "@/components/FallingLeaves";
-import { ThanksgivingCountdown } from "@/components/ThanksgivingCountdown";
+import { SeasonalEffects } from "@/components/SeasonalEffects";
+import { ChristmasCountdown } from "@/components/ChristmasCountdown";
 import { DailyReward } from "@/components/DailyReward";
 import { hash } from "@/lib/paths";
 import { games } from "@/data/games";
@@ -42,16 +42,16 @@ const Index = () => {
 
       {isAuthenticated ? (
         <>
-          <FallingLeaves />
+          <SeasonalEffects />
           <DailyReward streakCount={prefs.settings.streakCount || 0} />
           {/* Gamer Mode Home */}
           <HeroBanner />
 
           <GamerHome />
 
-          {/* Thanksgiving Countdown */}
+          {/* Christmas Countdown */}
           <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <ThanksgivingCountdown />
+            <ChristmasCountdown />
           </section>
 
           {/* Top Banner Ad - slim, non-intrusive */}
@@ -151,7 +151,7 @@ const Index = () => {
             className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
           >
             <h2 className="text-3xl md:text-4xl font-rowdies font-bold text-gamer-text text-center mb-12 flex items-center justify-center gap-3">
-              <span>🍂</span> Quick Access <span>🦃</span>
+              <span>🎄</span> Quick Access <span>🎅</span>
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -193,32 +193,33 @@ const Index = () => {
       ) : (
         <>
           {/* Public Home Page */}
+          <SeasonalEffects />
           <div className="py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center mb-12">
               <h1 className="text-4xl md:text-5xl font-rowdies font-bold text-foreground mb-4 flex items-center justify-center gap-3">
-                <span>🦃</span> Welcome to Tech Tips <span>🍂</span>
+                <span>🎄</span> Welcome to Tech Tips <span>🎅</span>
               </h1>
               <p className="text-lg text-muted-foreground">
-                Your cozy corner for tech tools, tips, and tricks this Thanksgiving season
+                Your cozy corner for tech tools, tips, and tricks this holiday season
               </p>
             </div>
             
             <div className="max-w-3xl mx-auto mb-12">
-              <ThanksgivingCountdown />
+              <ChristmasCountdown />
             </div>
           </div>
 
           <ContentSection
             id="utilities"
             icon={Wrench}
-            title="🍁 Utilities"
+            title="🎁 Utilities"
             description="Essential tools and utilities to enhance your experience"
             items={[
               { text: "🔐 Password Generator", utility: "password" },
               { text: "🎨 Color Picker", utility: "color" },
               { text: "📝 Text Converter", utility: "text" },
               { text: "📱 QR Code Generator", utility: "qr" },
-              { text: "❄️ Snow Day Predictor", url: "https://docs.google.com/spreadsheets/d/1dInwA7F-w0TB4Qy-D_463frdBPr9c21LPI4kdhktsO4/edit?gid=0#gid=0" },
+              { text: "❄️ Snow Day Predictor", url: "https://docs.google.com/spreadsheets/d/1VULC1vySGCZNfaU6XuQ4-u5IEsL-s0s2wzWM6TgPZPs/edit?usp=sharing" },
               { text: "🛡️ The Best Adblocker", url: "https://ublockorigin.com/" },
               { text: "📅 LCPS Calendars", url: "https://www.lcps.org/documents/discover-lcps/about-loudoun/calendars---loudoun-county-public-schools/629038" },
             ]}
@@ -230,7 +231,7 @@ const Index = () => {
           <ContentSection
             id="pc-optimizations"
             icon={Cpu}
-            title="🌰 PC Optimizations"
+            title="⛄ PC Optimizations"
             description="Tips and tricks to keep your PC running smoothly"
             items={[
               { text: "📋 Complete Optimization Guide", guide: "complete-guide" },
@@ -271,7 +272,7 @@ const Index = () => {
           <ContentSection
             id="other"
             icon={MoreHorizontal}
-            title="🍽️ Other"
+            title="🎀 Other"
             description="Additional resources and interesting finds"
             items={[
               { text: "👨‍💻 About Me", guide: "about-me" },

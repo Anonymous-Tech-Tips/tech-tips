@@ -15,15 +15,15 @@ export const FallingSnow = () => {
   const [snowflakes, setSnowflakes] = useState<Snowflake[]>([]);
 
   useEffect(() => {
-    const snowEmojis = ['❄️', '❅', '❆', '✻', '✼', '❋', '🎄', '⭐'];
-    const newSnowflakes: Snowflake[] = Array.from({ length: 25 }, (_, i) => ({
+    const snowEmojis = ['❄️', '❅', '❆', '✻', '❋', '🎄', '⭐', '🎁', '✨', '🌟'];
+    const newSnowflakes: Snowflake[] = Array.from({ length: 35 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
-      animationDuration: 10 + Math.random() * 10,
-      animationDelay: Math.random() * 8,
-      size: 14 + Math.random() * 20,
+      animationDuration: 8 + Math.random() * 12,
+      animationDelay: Math.random() * 10,
+      size: 12 + Math.random() * 24,
       emoji: snowEmojis[Math.floor(Math.random() * snowEmojis.length)],
-      opacity: 0.6 + Math.random() * 0.4,
+      opacity: 0.5 + Math.random() * 0.5,
     }));
     setSnowflakes(newSnowflakes);
   }, []);
@@ -42,8 +42,8 @@ export const FallingSnow = () => {
           }}
           animate={{
             y: ['0vh', '105vh'],
-            x: [0, Math.random() * 50 - 25],
-            rotate: [0, 360],
+            x: [0, Math.random() * 60 - 30],
+            rotate: [0, 360 * (Math.random() > 0.5 ? 1 : -1)],
           }}
           transition={{
             duration: flake.animationDuration,
@@ -57,26 +57,50 @@ export const FallingSnow = () => {
       ))}
       
       {/* Twinkling stars effect */}
-      {Array.from({ length: 8 }).map((_, i) => (
+      {Array.from({ length: 12 }).map((_, i) => (
         <motion.div
           key={`star-${i}`}
-          className="absolute text-yellow-300"
+          className="absolute"
           style={{
-            left: `${10 + Math.random() * 80}%`,
-            top: `${5 + Math.random() * 30}%`,
-            fontSize: '12px',
+            left: `${5 + Math.random() * 90}%`,
+            top: `${3 + Math.random() * 35}%`,
+            fontSize: '10px',
+            color: i % 2 === 0 ? 'hsl(45, 85%, 50%)' : 'hsl(352, 95%, 70%)',
           }}
           animate={{
-            opacity: [0.3, 1, 0.3],
-            scale: [0.8, 1.2, 0.8],
+            opacity: [0.2, 1, 0.2],
+            scale: [0.7, 1.3, 0.7],
           }}
           transition={{
-            duration: 2 + Math.random() * 2,
+            duration: 1.5 + Math.random() * 2,
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: Math.random() * 3,
           }}
         >
           ✦
+        </motion.div>
+      ))}
+
+      {/* Floating ornaments */}
+      {Array.from({ length: 6 }).map((_, i) => (
+        <motion.div
+          key={`ornament-${i}`}
+          className="absolute text-2xl"
+          style={{
+            left: `${10 + i * 15}%`,
+            top: `${5 + Math.random() * 20}%`,
+          }}
+          animate={{
+            y: [-5, 5, -5],
+            rotate: [-5, 5, -5],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            delay: i * 0.5,
+          }}
+        >
+          {['🔴', '🟢', '🔵', '🟡', '⚪', '🟣'][i]}
         </motion.div>
       ))}
     </div>

@@ -59,6 +59,14 @@ export default {
           border: "hsl(var(--gamer-border))",
           muted: "hsl(var(--gamer-muted))",
         },
+        christmas: {
+          red: "hsl(var(--christmas-red))",
+          darkRed: "hsl(var(--christmas-darkRed))",
+          green: "hsl(var(--christmas-green))",
+          darkGreen: "hsl(var(--christmas-darkGreen))",
+          cream: "hsl(var(--christmas-cream))",
+          gold: "hsl(var(--christmas-gold))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
