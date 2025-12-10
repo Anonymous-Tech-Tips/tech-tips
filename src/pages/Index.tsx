@@ -196,7 +196,7 @@ const Index = () => {
           <div className="py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center mb-12">
               <h1 className="text-4xl md:text-5xl font-rowdies font-bold text-foreground mb-4 flex items-center justify-center gap-3">
-                <span>🎄</span> Welcome to Tech Tips <span>🎅</span>
+                <span>🎄</span> Welcome to Armaan's Tech Tips <span>🎅</span>
               </h1>
               <p className="text-lg text-muted-foreground">
                 Your cozy corner for tech tools, tips, and tricks this holiday season

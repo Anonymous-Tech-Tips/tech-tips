@@ -34,6 +34,7 @@ export const Navbar: React.FC = () => {
           { label: "Entertainment", href: "/entertainment", requiresAuth: true, isRoute: true },
           { label: "Utilities", href: "/utilities", requiresAuth: true, isRoute: true },
           { label: "Education", href: "/education", requiresAuth: true, isRoute: true },
+          { label: "Friends", href: "/friends", requiresAuth: true, isRoute: true },
         ]
       : [
           { label: "Utilities", href: "#utilities", isRoute: false },
@@ -56,7 +57,7 @@ export const Navbar: React.FC = () => {
               <div className={`text-xl font-rowdies font-bold ${
                 isAuthenticated ? "text-gamer-text" : "text-foreground"
               }`}>
-                Tech Tips
+                Armaan's Tech Tips
               </div>
             </div>
 

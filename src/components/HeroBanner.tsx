@@ -11,7 +11,7 @@ export const HeroBanner: React.FC = () => {
     switch (season) {
       case 'christmas':
         return {
-          title: "Tech Tips",
+          title: "Armaan's Tech Tips",
           subtitle: "Happy Holidays!",
           showImage: true,
           imageSrc: christmasBanner,
@@ -19,7 +19,7 @@ export const HeroBanner: React.FC = () => {
         };
       case 'thanksgiving':
         return {
-          title: "Tech Tips",
+          title: "Armaan's Tech Tips",
           subtitle: null,
           showImage: true,
           imageSrc: thanksgivingBanner,
@@ -27,7 +27,7 @@ export const HeroBanner: React.FC = () => {
         };
       case 'halloween':
         return {
-          title: "Tech Tips",
+          title: "Armaan's Tech Tips",
           subtitle: "Spooky Season!",
           showImage: false,
           imageSrc: null,
@@ -35,7 +35,7 @@ export const HeroBanner: React.FC = () => {
         };
       case 'valentines':
         return {
-          title: "Tech Tips",
+          title: "Armaan's Tech Tips",
           subtitle: "Happy Valentine's!",
           showImage: false,
           imageSrc: null,
@@ -43,11 +43,11 @@ export const HeroBanner: React.FC = () => {
         };
       default:
         return {
-          title: "Tech Tips",
+          title: "Armaan's Tech Tips",
           subtitle: "Happy Holidays!",
           showImage: true,
           imageSrc: christmasBanner,
-          imageAlt: "Tech Tips banner",
+          imageAlt: "Armaan's Tech Tips banner",
         };
     }
   };
