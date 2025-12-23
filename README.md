@@ -802,3 +802,5 @@ While this site is designed for student free time, we encourage responsible use:
 [![Play Now](https://img.shields.io/badge/Play-Now-orange?style=for-the-badge)](https://subset28.github.io/Anonymous-Tech-Tips/)
 
 </div>
+#   S i t e m a p   d e p l o y e d  
+ 
