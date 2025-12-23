@@ -53,7 +53,7 @@ export const GamesHub: React.FC = () => {
 
   const exportGamesList = () => {
     const gamesList = filteredGames.map((game, index) => 
-      `${index + 1}. ${game.title}\n   🎮 Tags: ${game.tags.join(", ")}\n   🔗 ${window.location.origin}/Anonymous-Tech-Tips/#/games/${game.id}\n`
+      `${index + 1}. ${game.title}\n   🎮 Tags: ${game.tags.join(", ")}\n   🔗 ${window.location.origin}/#/games/${game.id}\n`
     ).join("\n");
 
     const fullExport = `🎮 ARMAAN'S TECH TIPS GAMES LIST (${filteredGames.length} Games)
@@ -62,7 +62,7 @@ Generated: ${new Date().toLocaleDateString()}
 ${gamesList}
 
 ---
-Visit Armaan's Tech Tips: ${window.location.origin}/Anonymous-Tech-Tips/
+Visit Armaan's Tech Tips: ${window.location.origin}/
 145+ Unblocked Games | Daily Rewards | Zero Downloads`;
 
     navigator.clipboard.writeText(fullExport).then(() => {
