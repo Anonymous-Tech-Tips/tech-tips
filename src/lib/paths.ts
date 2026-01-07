@@ -11,6 +11,6 @@ export const asset = (p: string) => withBase(p);
 
 // Canonical for SEO (HashRouter URLs)
 export const canonical = (hashPath = '/') =>
-  `https://armaans-tech-tips.github.io${
+  `https://anonymous-tech-tips.github.io${
     hashPath.startsWith('/#') ? hashPath : `/#${hashPath.replace(/^\//, '')}` 
   }`;

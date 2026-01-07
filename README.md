@@ -1,10 +1,10 @@
 # 🎮 Tech Tips - #1 Unblocked Games Hub 2025
 
-[![Live Site](https://img.shields.io/badge/Live-Site-orange?style=flat&logo=github)](https://subset28.github.io/Anonymous-Tech-Tips/)
+[![Live Site](https://img.shields.io/badge/Live-Site-orange?style=flat&logo=github)](https://anonymous-tech-tips.github.io/)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Subset28/Anonymous-Tech-Tips)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![Games](https://img.shields.io/badge/games-145+-green)](https://subset28.github.io/Anonymous-Tech-Tips/)
-[![PWA Ready](https://img.shields.io/badge/PWA-Ready-blue)](https://subset28.github.io/Anonymous-Tech-Tips/)
+[![Games](https://img.shields.io/badge/games-145+-green)](https://anonymous-tech-tips.github.io/)
+[![PWA Ready](https://img.shields.io/badge/PWA-Ready-blue)](https://anonymous-tech-tips.github.io/)
 
 > **The Best Unblocked Games Hub** -- Play 145+ unblocked games at school, earn rewards, unlock themes, and access premium utilities. Your ultimate destination for free online games unblocked for 2025!
 
@@ -12,7 +12,7 @@
 
 ## 🚀 Live Demo
 
-**Production**: [https://subset28.github.io/Anonymous-Tech-Tips/](https://subset28.github.io/Anonymous-Tech-Tips/)
+**Production**: [https://anonymous-tech-tips.github.io/](https://anonymous-tech-tips.github.io/)
 
 > **🎮 Play 145+ Games** | **🎁 Daily Reward** | **🏆 Streak System** | **🎨 Unlock Themes** | **📺 Stream Content**
 
@@ -651,7 +651,7 @@ Visit `/#/seo-setup` on the live site for the complete interactive setup guide, 
    - Go to [Google Search Console](https://search.google.com/search-console/welcome)
    - Sign in with your Google account
    - Choose "URL prefix" property type
-   - Enter site URL: `https://subset28.github.io/Anonymous-Tech-Tips`
+   - Enter site URL: `https://anonymous-tech-tips.github.io/`
 
 2. **Verify Ownership ✅ ALREADY DONE**
    - Verification meta tag already added to `index.html`:
@@ -663,17 +663,17 @@ Visit `/#/seo-setup` on the live site for the complete interactive setup guide, 
 
 3. **Submit Sitemap**
    - After verification, go to "Sitemaps" in Search Console sidebar
-   - Submit sitemap URL: `https://subset28.github.io/Anonymous-Tech-Tips/sitemap.xml`
+   - Submit sitemap URL: `https://anonymous-tech-tips.github.io/sitemap.xml`
    - Sitemap contains 160+ clean URLs (no hash routes)
    - Google will process it within 1-3 days
 
 4. **Request Indexing for Key Pages**
    - Use "URL Inspection" tool in Search Console
    - Request indexing for:
-     - Homepage: `https://subset28.github.io/Anonymous-Tech-Tips/`
-     - Games hub: `https://subset28.github.io/Anonymous-Tech-Tips/games`
+     - Homepage: `https://anonymous-tech-tips.github.io/`
+     - Games hub: `https://anonymous-tech-tips.github.io/games`
      - Top games: `/games/slope`, `/games/retro-bowl`, `/games/2048`, `/games/drive-mad`
-     - Utilities: `https://subset28.github.io/Anonymous-Tech-Tips/utilities`
+     - Utilities: `https://anonymous-tech-tips.github.io/utilities`
    - Google typically indexes within 1-7 days
 
 ### SEO Features Already Implemented ✅
@@ -729,10 +729,10 @@ Visit `/#/seo-setup` on the live site for the complete interactive setup guide, 
 
 ### Tools & Resources
 
-- **Sitemap**: [/sitemap.xml](https://subset28.github.io/Anonymous-Tech-Tips/sitemap.xml)
-- **Robots.txt**: [/robots.txt](https://subset28.github.io/Anonymous-Tech-Tips/robots.txt)
-- **SEO Setup Guide**: [/#/seo-setup](https://subset28.github.io/Anonymous-Tech-Tips/#/seo-setup)
-- **Share Hub**: [/#/share](https://subset28.github.io/Anonymous-Tech-Tips/#/share) (QR codes, social messages, bookmarklets)
+- **Sitemap**: [/sitemap.xml](https://anonymous-tech-tips.github.io/sitemap.xml)
+- **Robots.txt**: [/robots.txt](https://anonymous-tech-tips.github.io/robots.txt)
+- **SEO Setup Guide**: [/#/seo-setup](https://anonymous-tech-tips.github.io/#/seo-setup)
+- **Share Hub**: [/#/share](https://anonymous-tech-tips.github.io/#/share) (QR codes, social messages, bookmarklets)
 
 ## 📄 License
 
@@ -749,7 +749,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🔗 Links
 
-- **Live Site**: [https://subset28.github.io/Anonymous-Tech-Tips/](https://subset28.github.io/Anonymous-Tech-Tips/)
+- **Live Site**: [https://anonymous-tech-tips.github.io/](https://anonymous-tech-tips.github.io/)
 - **GitHub Repo**: [https://github.com/Subset28/Anonymous-Tech-Tips](https://github.com/Subset28/Anonymous-Tech-Tips)
 - **Report Issues**: [GitHub Issues](https://github.com/Subset28/Anonymous-Tech-Tips/issues)
 - **Game Requests**: [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSceaVXrWwjj0zqMqdmPJTCxPQoq166Pe72I7pKjcChU-h1mRQ/viewform)
@@ -799,8 +799,9 @@ While this site is designed for student free time, we encourage responsible use:
 
 *Built with ❤️ for students who deserve a great gaming experience at school*
 
-[![Play Now](https://img.shields.io/badge/Play-Now-orange?style=for-the-badge)](https://subset28.github.io/Anonymous-Tech-Tips/)
+[![Play Now](https://img.shields.io/badge/Play-Now-orange?style=for-the-badge)](https://anonymous-tech-tips.github.io/)
 
 </div>
-#   S i t e m a p   d e p l o y e d  
+#   S i t e m a p   d e p l o y e d 
+ 
  
