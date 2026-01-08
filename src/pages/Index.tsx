@@ -1,312 +1,387 @@
-import React from "react";
-import { Wrench, Cpu, GraduationCap, MoreHorizontal, Gamepad2, Users } from "lucide-react";
-import { TopBannerAd, InContentAd, BottomAd } from "@/components/GoogleAd";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { 
+  BookOpen, Calculator, Clock, Search, GraduationCap, 
+  Atom, Globe, Code, PenTool, Database, 
+  Microscope, ChevronRight, PlayCircle, Quote 
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
-import { useAuth } from "@/contexts/AuthContext";
-import { useUserPrefs } from "@/contexts/UserPrefsContext";
-import { Navbar } from "@/components/Navbar";
-import { ShareBanner } from "@/components/ShareBanner";
-import { ContentSection } from "@/components/ContentSection";
-import { HeroBanner } from "@/components/HeroBanner";
-import { GamerHome } from "@/components/GamerHome";
-import { SEO } from "@/components/SEO";
+import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
-import { SeasonalEffects } from "@/components/SeasonalEffects";
-import { ChristmasCountdown } from "@/components/ChristmasCountdown";
-import { DailyReward } from "@/components/DailyReward";
-import FriendsGallery from "@/components/FriendsGallery";
-import { hash } from "@/lib/paths";
-import { games } from "@/data/games";
-import fallbackThumbnail from "@/assets/thumbnails/_fallback.png";
+import { useAuth } from "@/contexts/AuthContext";
+import { GamerHome } from "@/components/GamerHome";
 
-const Index = () => {
-  const { isAuthenticated } = useAuth();
-  const { prefs } = useUserPrefs();
+// --- 🏫 PUBLIC ACADEMIC PAGE ---
 
-  // Get continue playing items
-  const continueIds = prefs.history.filter(h => h.itemType==='game').map(h => h.itemId);
-  const uniqueContinue = [...new Set(continueIds)];
-  const continueItems = uniqueContinue.map(id => games.find(g => g.id===id)).filter(Boolean) as typeof games;
+const AcademicHome = () => {
+  // --- INTERACTIVE TOOL STATES ---
+  
+  // 1. Pomodoro Timer State
+  const [timeLeft, setTimeLeft] = useState(25 * 60);
+  const [isActive, setIsActive] = useState(false);
+  
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isActive && timeLeft > 0) {
+      interval = setInterval(() => setTimeLeft((t) => t - 1), 1000);
+    } else if (timeLeft === 0) {
+      setIsActive(false);
+    }
+    return () => clearInterval(interval);
+  }, [isActive, timeLeft]);
 
-  // Get favorite items
-  const favItems = prefs.favorites.map(id => games.find(g => g.id===id)).filter(Boolean) as typeof games;
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
+
+  // 2. GPA Calculator State
+  const [grades, setGrades] = useState([{ grade: '', weight: '' }]);
+  const [gpa, setGpa] = useState<number | null>(null);
+
+  const calculateGPA = () => {
+    let totalPoints = 0;
+    let totalWeights = 0;
+    grades.forEach(g => {
+      const w = parseFloat(g.weight) || 1;
+      const score = parseFloat(g.grade);
+      if (!isNaN(score)) {
+        totalPoints += score * w;
+        totalWeights += w;
+      }
+    });
+    setGpa(totalWeights > 0 ? totalPoints / totalWeights : 0);
+  };
 
   return (
-    <>
-      <SEO />
-      <div className={`min-h-screen transition-colors duration-300 ${
-        isAuthenticated ? "bg-gamer-bg" : "bg-background"
-      }`}>
-        <ShareBanner />
-        <Navbar />
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-teal-100">
+      
 
-      {isAuthenticated ? (
-        <>
-          <SeasonalEffects />
-          <DailyReward streakCount={prefs.settings.streakCount || 0} />
-          {/* Gamer Mode Home */}
-          <HeroBanner />
+      {/* --- HERO SECTION --- */}
+      <section className="bg-white border-b border-slate-200 pt-20 pb-16 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-800 text-sm font-semibold border border-teal-100">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+              </span>
+              Academic Portal v2.4 Live
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-slate-900">
+              Accelerate Your <br/>
+              <span className="text-teal-700">Learning Potential</span>
+            </h1>
+            <p className="text-lg text-slate-600 max-w-xl leading-relaxed">
+              Access essential tools, curated research databases, and study optimization resources. 
+              Designed for the modern scholar.
+            </p>
+            <div className="flex gap-4 pt-2">
+              <Button size="lg" className="bg-teal-700 hover:bg-teal-800 text-white rounded-md px-8 h-12 text-base">
+                Explore Resources
+              </Button>
+              <Link to="/login">
+                <Button variant="outline" size="lg" className="border-slate-300 text-slate-700 h-12">
+                  Student Portal Login
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
 
-          <GamerHome />
-
-          {/* Christmas Countdown */}
-          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <ChristmasCountdown />
-          </section>
-
-          {/* Top Banner Ad - slim, non-intrusive */}
-          <TopBannerAd />
-
-          {/* Continue Playing Rail */}
-          {continueItems.length > 0 && (
-            <motion.section 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
-            >
-              <h2 className="text-2xl md:text-3xl font-rowdies font-bold text-gamer-text mb-6 flex items-center gap-2">
-                🎮 Continue Playing
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {continueItems.slice(0, 12).map((game, idx) => (
-                  <motion.div
-                    key={game.id}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: idx * 0.05 }}
+          {/* --- INTERACTIVE TOOLS WIDGET --- */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden"
+          >
+            <div className="bg-slate-100 px-6 py-3 border-b border-slate-200 flex items-center gap-2">
+              <div className="flex gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+                <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+                <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+              </div>
+              <span className="text-xs font-medium text-slate-500 ml-2">Quick Tools</span>
+            </div>
+            <Tabs defaultValue="timer" className="w-full">
+              <TabsList className="w-full grid grid-cols-3 bg-slate-50 p-1">
+                <TabsTrigger value="timer" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">Focus Timer</TabsTrigger>
+                <TabsTrigger value="calc" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">Grade Calc</TabsTrigger>
+                <TabsTrigger value="cite" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">Citation</TabsTrigger>
+              </TabsList>
+              
+              {/* POMODORO */}
+              <TabsContent value="timer" className="p-8 text-center space-y-6">
+                <div className="text-6xl font-mono font-bold text-slate-800 tracking-wider">
+                  {formatTime(timeLeft)}
+                </div>
+                <div className="flex justify-center gap-4">
+                  <Button 
+                    onClick={() => setIsActive(!isActive)}
+                    className={isActive ? "bg-amber-600 hover:bg-amber-700" : "bg-teal-600 hover:bg-teal-700"}
                   >
-                    <Link
-                      to={`/games/${game.id}`}
-                      className="group bg-gamer-card border border-gamer-border rounded-lg p-3
-                               transition-all duration-normal hover:border-gamer-accent hover:shadow-lg hover:shadow-gamer-accent/20 hover:-translate-y-1"
-                    >
-                      <img
-                        src={game.thumbnail || fallbackThumbnail}
-                        alt={game.title}
-                        className={`w-full h-20 object-cover rounded mb-2 ${prefs.settings.studyMode ? 'blur-sm contrast-50' : ''}`}
+                    {isActive ? "Pause Session" : "Start Focus"}
+                  </Button>
+                  <Button variant="ghost" onClick={() => { setIsActive(false); setTimeLeft(25 * 60); }}>
+                    Reset
+                  </Button>
+                </div>
+                <p className="text-xs text-slate-400">Standard Pomodoro: 25m Focus / 5m Break</p>
+              </TabsContent>
+
+              {/* GRADE CALC */}
+              <TabsContent value="calc" className="p-6 space-y-4">
+                <div className="space-y-2">
+                  <div className="flex gap-2 text-sm text-slate-500 font-medium">
+                    <span className="flex-1">Grade (%)</span>
+                    <span className="w-20">Weight</span>
+                  </div>
+                  {grades.map((g, i) => (
+                    <div key={i} className="flex gap-2">
+                      <Input 
+                        placeholder="95" 
+                        value={g.grade}
+                        onChange={(e) => {
+                          const newGrades = [...grades];
+                          newGrades[i].grade = e.target.value;
+                          setGrades(newGrades);
+                        }}
                       />
-                      {prefs.settings.studyMode && (
-                        <button
-                          className="text-xs underline opacity-80"
-                          onClick={(e) => { e.preventDefault(); /* temporarily reveal this card */ }}
-                        >
-                          reveal
-                        </button>
-                      )}
-                      <h3 className="font-medium text-gamer-text group-hover:text-gamer-accent transition-colors duration-fast text-sm text-center truncate">
-                        {game.title}
-                      </h3>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.section>
-          )}
+                      <Input 
+                        placeholder="1.0" 
+                        className="w-20" 
+                        value={g.weight}
+                        onChange={(e) => {
+                          const newGrades = [...grades];
+                          newGrades[i].weight = e.target.value;
+                          setGrades(newGrades);
+                        }}
+                      />
+                    </div>
+                  ))}
+                  <Button variant="link" onClick={() => setGrades([...grades, { grade: '', weight: '' }])} className="text-teal-600 h-auto p-0 text-xs">
+                    + Add Course
+                  </Button>
+                </div>
+                <div className="flex justify-between items-center bg-slate-100 p-3 rounded-lg border border-slate-200">
+                  <Button onClick={calculateGPA} size="sm" className="bg-slate-800">Calculate</Button>
+                  <div className="text-right">
+                    <span className="text-xs text-slate-500 block uppercase tracking-wide">Weighted Average</span>
+                    <span className="text-xl font-bold text-teal-700">{gpa !== null ? gpa.toFixed(2) : '--'}</span>
+                  </div>
+                </div>
+              </TabsContent>
 
-          {/* In-content ad after Continue Playing */}
-          {continueItems.length > 0 && <InContentAd />}
+              {/* CITATION */}
+              <TabsContent value="cite" className="p-6 space-y-4">
+                <div className="space-y-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-500">Source URL</label>
+                    <Input placeholder="https://..." />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-500">Style</label>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm" className="flex-1 bg-teal-50 border-teal-200 text-teal-700">MLA 9</Button>
+                      <Button variant="outline" size="sm" className="flex-1">APA 7</Button>
+                      <Button variant="outline" size="sm" className="flex-1">Chicago</Button>
+                    </div>
+                  </div>
+                  <Button className="w-full bg-slate-800 mt-2">Generate Citation</Button>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </motion.div>
+        </div>
+      </section>
 
-          {/* Favorites Rail */}
-          {favItems.length > 0 && (
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <h2 className="text-2xl md:text-3xl font-rowdies font-bold text-gamer-text mb-6 flex items-center gap-2">
-                ⭐ Your Favorites
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {favItems.slice(0, 12).map(game => (
-                  <Link
-                    key={game.id}
-                    to={`/games/${game.id}`}
-                    className="group bg-gamer-card border border-gamer-border rounded-lg p-3
-                             transition-all duration-normal hover:border-gamer-accent hover:shadow-lg hover:shadow-gamer-accent/20 hover:-translate-y-1"
-                  >
-                    <img
-                      src={game.thumbnail || fallbackThumbnail}
-                      alt={game.title}
-                      className={`w-full h-20 object-cover rounded mb-2 ${prefs.settings.studyMode ? 'blur-sm contrast-50' : ''}`}
-                    />
-                    {prefs.settings.studyMode && (
-                      <button
-                        className="text-xs underline opacity-80"
-                        onClick={(e) => { e.preventDefault(); /* temporarily reveal this card */ }}
-                      >
-                        reveal
-                      </button>
-                    )}
-                    <h3 className="font-medium text-gamer-text group-hover:text-gamer-accent transition-colors duration-fast text-sm text-center truncate">
-                      {game.title}
-                    </h3>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
+      {/* --- CURATED RESOURCES GRID --- */}
+      <main className="max-w-7xl mx-auto px-6 py-16">
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900">Curated Learning Directory</h2>
+            <p className="text-slate-500">Verified resources for research and development.</p>
+          </div>
+          <div className="relative hidden md:block w-64">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+            <Input placeholder="Search resources..." className="pl-9" />
+          </div>
+        </div>
 
-          {/* Quick Access Cards for Gamer Mode */}
-          <motion.section 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-rowdies font-bold text-gamer-text text-center mb-12 flex items-center justify-center gap-3">
-              <span>🎄</span> Quick Access <span>🎅</span>
-            </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          {/* STEM CARD */}
+          <ResourceCard 
+            icon={Atom} 
+            title="Science & Math" 
+            color="text-blue-600"
+            bg="bg-blue-50"
+            links={[
+              { label: "WolframAlpha", url: "https://www.wolframalpha.com" },
+              { label: "Desmos Graphing", url: "https://www.desmos.com/calculator" },
+              { label: "PhET Simulations", url: "https://phet.colorado.edu/" },
+              { label: "The Feynman Lectures", url: "https://www.feynmanlectures.caltech.edu/" },
+              { label: "Khan Academy", url: "https://www.khanacademy.org/" },
+            ]}
+          />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                { to: "/games", icon: Gamepad2, title: "Games Hub", desc: "Browse and play games", delay: 0 },
-                { to: "/utilities", icon: Wrench, title: "Utilities", desc: "Essential tools and utilities", delay: 0.1 },
-                { to: "/optimizations", icon: Cpu, title: "PC Optimizations", desc: "Tips and tricks for your PC", delay: 0.2 }
-              ].map((item, idx) => (
-                <motion.div
-                  key={item.to}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 + item.delay }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Link
-                    to={item.to}
-                    className="group bg-gamer-card border border-gamer-border rounded-lg p-6
-                             transition-all duration-normal hover:border-gamer-accent hover:shadow-lg hover:shadow-gamer-accent/20 block"
-                  >
-                    <item.icon className="text-gamer-accent mx-auto mb-4 group-hover:scale-110 transition-transform" size={48} />
-                    <h3 className="font-semibold text-gamer-text group-hover:text-gamer-accent transition-colors duration-fast text-center">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-gamer-muted text-center mt-2">
-                      {item.desc}
-                    </p>
-                  </Link>
-                </motion.div>
-              ))}
+          {/* CODING CARD */}
+          <ResourceCard 
+            icon={Code} 
+            title="Computer Science" 
+            color="text-emerald-600"
+            bg="bg-emerald-50"
+            links={[
+              { label: "CS50 Harvard", url: "https://cs50.harvard.edu/x/" },
+              { label: "The Odin Project", url: "https://www.theodinproject.com/" },
+              { label: "MDN Web Docs", url: "https://developer.mozilla.org/" },
+              { label: "Replit IDE", url: "https://replit.com/" },
+              { label: "LeetCode", url: "https://leetcode.com/" },
+            ]}
+          />
+
+          {/* HUMANITIES CARD */}
+          <ResourceCard 
+            icon={Globe} 
+            title="Humanities & Lang" 
+            color="text-amber-600"
+            bg="bg-amber-50"
+            links={[
+              { label: "Duolingo Schools", url: "https://schools.duolingo.com/" },
+              { label: "Project Gutenberg", url: "https://www.gutenberg.org/" },
+              { label: "Stanford Philosophy", url: "https://plato.stanford.edu/" },
+              { label: "National Archives", url: "https://www.archives.gov/" },
+              { label: "Google Arts & Culture", url: "https://artsandculture.google.com/" },
+            ]}
+          />
+
+          {/* RESEARCH CARD */}
+          <ResourceCard 
+            icon={Database} 
+            title="Academic Research" 
+            color="text-purple-600"
+            bg="bg-purple-50"
+            links={[
+              { label: "Google Scholar", url: "https://scholar.google.com/" },
+              { label: "JSTOR", url: "https://www.jstor.org/" },
+              { label: "Purdue OWL", url: "https://owl.purdue.edu/" },
+              { label: "Zotero Bib", url: "https://zbib.org/" },
+              { label: "ResearchRabbit", url: "https://www.researchrabbit.ai/" },
+            ]}
+          />
+
+          {/* PRODUCTIVITY CARD */}
+          <ResourceCard 
+            icon={PenTool} 
+            title="Student Utilities" 
+            color="text-slate-600"
+            bg="bg-slate-100"
+            links={[
+              { label: "Notion for Students", url: "https://www.notion.so/product/notion-for-education" },
+              { label: "Anki Flashcards", url: "https://apps.ankiweb.net/" },
+              { label: "Obsidian Notes", url: "https://obsidian.md/" },
+              { label: "Excalidraw", url: "https://excalidraw.com/" },
+              { label: "Pomofocus", url: "https://pomofocus.io/" },
+            ]}
+          />
+
+          {/* DOCUMENTARIES CARD */}
+          <ResourceCard 
+            icon={PlayCircle} 
+            title="Visual Learning" 
+            color="text-rose-600"
+            bg="bg-rose-50"
+            links={[
+              { label: "PBS Nova", url: "https://www.pbs.org/wgbh/nova/" },
+              { label: "Nat Geo Education", url: "https://www.nationalgeographic.org/society/education-resources/" },
+              { label: "TED-Ed", url: "https://ed.ted.com/" },
+              { label: "Kurzgesagt", url: "https://kurzgesagt.org/" },
+              { label: "Smithsonian Channel", url: "https://www.smithsonianchannel.com/" },
+            ]}
+          />
+        </div>
+      </main>
+
+      {/* --- DAILY INSIGHT SECTION --- */}
+      <section className="bg-teal-900 text-teal-50 py-16 px-6">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <Quote className="h-12 w-12 mx-auto text-teal-400 opacity-50" />
+          <blockquote className="text-2xl md:text-3xl font-serif italic leading-relaxed">
+            "Education is not the learning of facts, but the training of the mind to think."
+          </blockquote>
+          <cite className="block text-teal-300 font-semibold not-italic">— Albert Einstein</cite>          
+          <div className="pt-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center border-t border-teal-800 mt-8">
+            <div>
+              <div className="text-3xl font-bold text-white">45+</div>
+              <div className="text-sm text-teal-300">Verified Tools</div>
             </div>
-          </motion.section>
-
-          {/* Friends Section */}
-          <motion.section 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-rowdies font-bold text-gamer-text text-center mb-8 flex items-center justify-center gap-3">
-              <Users className="text-gamer-accent" size={32} />
-              The Squad
-            </h2>
-            <FriendsGallery />
-          </motion.section>
-
-          {/* Bottom Ad */}
-          <BottomAd />
-        </>
-      ) : (
-        <>
-          {/* Public Home Page */}
-          <SeasonalEffects />
-          <div className="py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-rowdies font-bold text-foreground mb-4 flex items-center justify-center gap-3">
-                <span>🎄</span> Welcome to Armaan's Tech Tips <span>🎅</span>
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Your cozy corner for tech tools, tips, and tricks this holiday season
-              </p>
+            <div>
+              <div className="text-3xl font-bold text-white">24/7</div>
+              <div className="text-sm text-teal-300">Uptime Access</div>
             </div>
-            
-            <div className="max-w-3xl mx-auto mb-12">
-              <ChristmasCountdown />
+            <div>
+              <div className="text-3xl font-bold text-white">100%</div>
+              <div className="text-sm text-teal-300">Free Resources</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-white">Safe</div>
+              <div className="text-sm text-teal-300">Distraction Free</div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <ContentSection
-            id="utilities"
-            icon={Wrench}
-            title="🎁 Utilities"
-            description="Essential tools and utilities to enhance your experience"
-            items={[
-              { text: "🔐 Password Generator", utility: "password" },
-              { text: "🎨 Color Picker", utility: "color" },
-              { text: "📝 Text Converter", utility: "text" },
-              { text: "📱 QR Code Generator", utility: "qr" },
-              { text: "❄️ Snow Day Predictor", url: "https://docs.google.com/spreadsheets/d/1VULC1vySGCZNfaU6XuQ4-u5IEsL-s0s2wzWM6TgPZPs/edit?usp=sharing" },
-              { text: "🛡️ The Best Adblocker", url: "https://ublockorigin.com/" },
-              { text: "📅 LCPS Calendars", url: "https://www.lcps.org/documents/discover-lcps/about-loudoun/calendars---loudoun-county-public-schools/629038" },
-            ]}
-          />
-
-          {/* In-content ad after Utilities section */}
-          <InContentAd />
-
-          <ContentSection
-            id="pc-optimizations"
-            icon={Cpu}
-            title="⛄ PC Optimizations"
-            description="Tips and tricks to keep your PC running smoothly"
-            items={[
-              { text: "📋 Complete Optimization Guide", guide: "complete-guide" },
-              { text: "🛠️ Chris Titus Tech's WinUtil", guide: "winutil-guide" },
-              { text: "💾 System Restore Point Setup", guide: "restore-point" },
-              { text: "⚡ Power Plan Optimization", guide: "power-plan" },
-              { text: "🔥 CPU Core Unparking", guide: "unpark-cpu" },
-              { text: "🔧 Services Optimization", guide: "services-optimization" },
-              { text: "⚙️ Windows Settings", guide: "windows-settings" },
-              { text: "🎮 GPU Driver Optimization", guide: "gpu-optimization" },
-              { text: "📊 MSI Afterburner Setup", guide: "msi-afterburner" },
-              { text: "🌐 Network Optimization", guide: "network-optimization" },
-              { text: "📡 TCP Optimizer Setup", guide: "tcp-optimization" },
-              { text: "🧹 System Cleanup Tools", guide: "system-cleanup" },
-            ]}
-          />
-
-          <ContentSection
-            id="education"
-            icon={GraduationCap}
-            title="📚 Education"
-            description="Learning resources and educational content"
-            items={[
-              { text: "🧮 Course Grade Calculator", url: "https://www.desmos.com/calculator/wrmalnmnpj" },
-              { text: "📺 Subject Review Channels", guide: "review-channels" },
-              { text: "💻 Programming Fundamentals", guide: "programming-basics" },
-              { text: "🧮 Math Resources", guide: "math-resources" },
-              { text: "📚 Study Techniques", guide: "study-methods" },
-              { text: "🔬 Science Experiments", guide: "science-experiments" },
-              { text: "🌍 Language Learning", guide: "language-learning" },
-              { text: "🖥️ Tech Concepts Explained", guide: "tech-concepts" },
-            ]}
-          />
-
-          {/* In-content ad after Education section */}
-          <InContentAd />
-
-          <ContentSection
-            id="other"
-            icon={MoreHorizontal}
-            title="🎀 Other"
-            description="Additional resources and interesting finds"
-            items={[
-              { text: "👨‍💻 About Me", guide: "about-me" },
-              { text: "🔗 Cool Websites Collection", guide: "cool-websites" },
-              { text: "📰 Tech News & Updates", guide: "tech-news" },
-              { text: "👥 Community Projects", guide: "community-projects" },
-              { text: "📋 Helpful Links Directory", guide: "helpful-links" },
-              { text: "💿 Software Recommendations", guide: "software-recommendations" },
-              { text: "💡 Tips & Tricks Compilation", guide: "tips-tricks" },
-              { text: "📝 Suggestions", url: "https://docs.google.com/forms/d/e/1FAIpQLSceaVXrWwjj0zqMqdmPJTCxPQoq166Pe72I7pKjcChU-h1mRQ/viewform?embedded=true" },
-              { text: "⚖️ DMCA Takedown", url: "https://docs.google.com/forms/d/e/1FAIpQLSe6wFMCXkW_U_U_GwbnyxscD2t91wP4KakVLOiKBzYnZRFfTg/viewform" },
-            ]}
-          />
-        </>
-      )}
-
-        <Footer />
-      </div>
-    </>
+      <Footer />
+    </div>
   );
+};
+
+// --- HELPER COMPONENT ---
+const ResourceCard = ({ icon: Icon, title, links, color, bg }: any) => (
+  <Card className="border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+    <CardHeader className="pb-3">
+      <div className={`w-10 h-10 rounded-lg ${bg} flex items-center justify-center mb-2`}>
+        <Icon className={`h-5 w-5 ${color}`} />
+      </div>
+      <CardTitle className="text-lg font-bold text-slate-800">{title}</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2">
+        {links.map((link: any, i: number) => (
+          <li key={i}>
+            <a 
+              href={link.url} 
+              target="_blank" 
+              rel="noreferrer"
+              className="group flex items-center justify-between text-sm text-slate-500 hover:text-teal-700 hover:bg-teal-50 p-2 rounded-md transition-colors"
+            >
+              <span>{link.label}</span>
+              <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </CardContent>
+  </Card>
+);
+
+// --- MAIN WRAPPER ---
+const Index = () => {
+  const { isAuthenticated } = useAuth();  
+  
+  if (isAuthenticated) {
+    return <GamerHome />;
+  }
+
+  return <AcademicHome />;
 };
 
 export default Index;
