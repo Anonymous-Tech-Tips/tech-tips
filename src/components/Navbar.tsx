@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, X, Command, Coins, Gift } from "lucide-react";
+import { Menu, X, Command, Coins, Gift, LogOut } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { ShareButton } from "./ShareButton";
@@ -169,7 +169,7 @@ export const Navbar: React.FC = () => {
                 <Button
                   onClick={async () => {
                     await logout();
-                    navigate("/login");
+                    navigate("/");
                   }}
                   size="sm"
                   variant="ghost"
@@ -179,6 +179,7 @@ export const Navbar: React.FC = () => {
                              hover:bg-gamer-border/30 hover:text-gamer-accent
                              transition-colors"
                 >
+                  <LogOut className="h-4 w-4 mr-2" />
                   Logout
                 </Button>
               ) : (
@@ -277,7 +278,7 @@ export const Navbar: React.FC = () => {
                   <Button
                     onClick={async () => {
                       await logout();
-                      navigate("/login");
+                      navigate("/");
                     }}
                     size="sm"
                     variant="ghost"
@@ -287,6 +288,7 @@ export const Navbar: React.FC = () => {
                                hover:bg-gamer-border/30 hover:text-gamer-accent
                                transition-colors"
                   >
+                    <LogOut className="h-4 w-4 mr-2" />
                     Logout
                   </Button>
                 ) : (

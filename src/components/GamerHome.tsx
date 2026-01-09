@@ -165,9 +165,13 @@ export const GamerHome = () => {
         {/* 5. QUICK CATEGORY PILLS */}
         <div className="flex flex-wrap gap-3 mb-12">
           {['Action', 'Racing', 'Sports', 'Multiplayer', 'Strategy'].map((tag) => (
-             <button key={tag} className="px-6 py-3 rounded-xl bg-[#1E1E24] border border-white/5 text-slate-300 font-medium hover:bg-white/10 hover:text-white hover:border-orange-500/30 transition-all">
+             <Link 
+               key={tag} 
+               to={`/games?category=${tag.toLowerCase()}`}
+               className="px-6 py-3 rounded-xl bg-[#1E1E24] border border-white/5 text-slate-300 font-medium hover:bg-white/10 hover:text-white hover:border-orange-500/30 transition-all"
+             >
                 {tag}
-             </button>
+             </Link>
           ))}
           <Link to="/entertainment" className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-900/40 to-indigo-900/40 border border-purple-500/30 text-purple-200 font-bold hover:shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all flex items-center gap-2">
             <Tv size={18} /> Movies & TV
