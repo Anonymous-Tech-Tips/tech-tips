@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'self' https://anonymous-tech-tips.github.io;
-                   script-src 'self' 'unsafe-inline' 'unsafe-eval' https://anonymous-tech-tips.github.io https://www.freevisitorcounters.com https://pagead2.googlesyndication.com https://www.googletagservices.com https://adservice.google.com;
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval' https://anonymous-tech-tips.github.io https://www.freevisitorcounters.com https://pagead2.googlesyndication.com https://www.googletagservices.com https://adservice.google.com https://www.googletagmanager.com https://www.google-analytics.com;
                    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-                   img-src 'self' data: blob: https://anonymous-tech-tips.github.io https://* https://pagead2.googlesyndication.com https://www.google.com https://fonts.gstatic.com;
+                   img-src 'self' data: blob: https://anonymous-tech-tips.github.io https://* https://pagead2.googlesyndication.com https://www.google.com https://fonts.gstatic.com https://www.google-analytics.com;
                    font-src 'self' data: https://fonts.gstatic.com;
-                   connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.firebaseio.com https://*.googleapis.com https://pagead2.googlesyndication.com wss://*;
+                   connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.firebaseio.com https://*.googleapis.com https://pagead2.googlesyndication.com https://www.google-analytics.com wss://*;
                    frame-src 'self' https://* https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;
                    worker-src 'self' blob:;
                    base-uri 'self';
@@ -61,6 +61,15 @@
     
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8981618797106308" crossorigin="anonymous"></script>
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZK2HTR5J4R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZK2HTR5J4R');
+    </script>
   </head>
 
   <body>
