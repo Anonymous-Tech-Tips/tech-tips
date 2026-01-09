@@ -1,25 +1,50 @@
-export function openGameSandbox(realUrl: string) {
-  // Open about:blank first to hide referrer, then redirect to actual URL
-  // This bypasses X-Frame-Options restrictions since we're not using iframes
+// src/utils/openGameSandbox.ts
+
+export function openSmart(url: string, forceRedirect: boolean = false) {
+  if (!url || url === "#") return;
+
   const win = window.open("about:blank", "_blank");
   if (!win) return;
 
-  // Write a full HTML page with an iframe to the game
-  win.document.write(`
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Loading...</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; overflow: hidden; }
-    iframe { width: 100vw; height: 100vh; border: none; }
-  </style>
-</head>
-<body>
-  <iframe src="${realUrl}" allowfullscreen></iframe>
-</body>
-</html>
-  `);
+  // STRATEGY A: DIRECT REDIRECT (For Miruro, Netflix, Disney+)
+  // Use this if the site has "X-Frame-Options: DENY" (The Firefox Error)
+  if (forceRedirect) {
+    win.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head><title>Loading...</title></head>
+        <body style="background: #121217; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
+          <div style="text-align: center;">
+            <p>Connecting securely...</p>
+          </div>
+          <script>
+            // Strip referrer so they don't know you came from school
+            window.location.replace("${url}");
+          </script>
+        </body>
+      </html>
+    `);
+  } 
+  
+  // STRATEGY B: IFRAME CLOAK (For Google Slides, Canva, Games)
+  // Keeps the URL hidden in the bar
+  else {
+    win.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Classroom Activity</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { background: #000; overflow: hidden; }
+            iframe { width: 100vw; height: 100vh; border: none; }
+          </style>
+        </head>
+        <body>
+          <iframe src="${url}" allowfullscreen></iframe>
+        </body>
+      </html>
+    `);
+  }
   win.document.close();
 }

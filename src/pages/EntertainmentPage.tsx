@@ -1,381 +1,239 @@
-import React from "react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { SEO } from "@/components/SEO";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink, AlertTriangle, Tv, Film, Popcorn } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { openGameSandbox } from "@/utils/openGameSandbox";
-import { TopBannerAd, InContentAd, BottomAd } from "@/components/GoogleAd";
-const streamingServices = [
-  {
-    name: "Netflix (Google Slides)",
-    url: "https://docs.google.com/presentation/d/149GpUX0v2xNpwbUTv0Ra1bXSBJ8VImN3yQXMYA9ZhKA/edit?slide=id.g3390e1e779d_159_56#slide=id.g3390e1e779d_159_56",
-    icon: "🎬",
-    description: "Watch your favorite shows and movies",
-  },
-  {
-    name: "Netflix (Canva)",
-    url: "https://netflix-offical.my.canva.site/",
-    icon: "📺",
-    description: "Alternative Netflix viewing platform",
-  },
-  {
-    name: "Crunchyroll (Anime)",
-    url: "https://docs.google.com/presentation/d/11emRJ473ihU1R5lKucb1e9xJDbHy4-myZBw3sMzBiac/edit?slide=id.g3546607dc8c_0_998#slide=id.g3546607dc8c_0_998",
-    icon: "🎌",
-    description: "Stream your favorite anime series",
-  },
-  {
-    name: "Disney+",
-    url: "https://docs.google.com/presentation/d/1cqMoS7rNvOX77938GusdWNi6mYVPOfETCVsAVW9I9ps/edit?slide=id.p#slide=id.p",
-    icon: "🏰",
-    description: "Access Disney, Marvel, and Star Wars content",
-  },
-  {
-    name: "Paramount Plus",
-    url: "https://docs.google.com/presentation/d/1CiZMdBm677M7EIus7gT89WPxwYPzXJQgwmXGv3sLAaw/edit#slide=id.g1b71f8bdb3c_2_77",
-    icon: "⭐",
-    description: "Stream Paramount movies and shows",
-  },
-  {
-    name: "Roku",
-    url: "https://docs.google.com/presentation/d/1OjrWHYHz5xbxhVYfWbDF4J0NdM3AYHC9x2pTchv4GuU/edit#slide=id.g26f6dcac621_1_0",
-    icon: "📡",
-    description: "Access Roku streaming content",
-  },
-  {
-    name: "Tubi",
-    url: "https://docs.google.com/presentation/d/1MKUZLOhfS1PyOtbz-uhfdNqewzDJIqZxBEfMeWPhJpE/edit#slide=id.g2d03a5085ad_0_68",
-    icon: "🎥",
-    description: "Free movies and TV shows",
-  },
-  {
-    name: "Hulu",
-    url: "https://docs.google.com/presentation/d/1YDZCGRJMcIXA6CDnnxEUcNuZuEx-NdUETeeVFulhYDg/edit",
-    icon: "💚",
-    description: "Stream Hulu originals and network shows",
-  },
-  {
-    name: "The Divine Depths",
-    url: "https://docs.google.com/document/d/1D9ruLVUZ9k9AmGDf52p0oTlRTnGd_zmYx2v6NoE2dbM/edit?tab=t.qdnbynrjz9av",
-    icon: "⚔️",
-    description: "Ultimate hub - Games, Movies, Shows & Music all in one place",
-  },
+import { 
+  Search, Flame, Tv, Play, ChevronRight, 
+  Film, Trophy, Zap, Clapperboard, Monitor,
+  Gamepad, Crown, Popcorn
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useUserPrefs } from "@/contexts/UserPrefsContext";
+import { DailyReward } from "@/components/DailyReward";
+import { TopBannerAd, BottomAd, InContentAd } from "@/components/GoogleAd";
+import { openSmart } from "@/utils/openGameSandbox";
+import { decryptLink } from "@/utils/crypto";
+
+// 🎬 DATA CONFIGURATION
+// I have mapped your provided list to our UI structure
+
+const animeList = [
+  { title: "HiAnime", encodedUrl: "aHR0cHM6Ly9oaWFuaW1lLnRvLw==", cloaked: false, desc: "Sub / Dub / Auto-Next", icon: Zap, color: "from-orange-500 to-red-600", thumb: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1000&auto=format&fit=crop" },
+  { title: "AnimeKai", encodedUrl: "aHR0cHM6Ly9hbmltZWthaS50by8=", cloaked: false, desc: "Hard Subs / Dub", icon: Clapperboard, color: "from-purple-500 to-indigo-600", thumb: "https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=1000&auto=format&fit=crop" },
+  { title: "Miruro", encodedUrl: "aHR0cHM6Ly9taXJ1cm8udHYv", cloaked: false, desc: "Clean UI / No Ads", icon: Crown, color: "from-green-500 to-emerald-700", thumb: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1000&auto=format&fit=crop" },
+  { title: "Miruro (Mirror)", encodedUrl: "aHR0cHM6Ly93d3cubWlydXJvLmNvbS8=", cloaked: false, desc: "Alternative Link", icon: Crown, color: "from-green-500 to-emerald-700", thumb: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1000&auto=format&fit=crop" },
 ];
 
-// Sites requiring unblocker (starred from FMHY)
-const unblockerAnime = [
-  { name: "AnimeKai", url: "https://animekai.to/", icon: "🎌", description: "Hard Subs / Dub / Auto-Next" },
-  { name: "Miruro", url: "https://www.miruro.com/", icon: "✨", description: "Hard Subs / Dub / Auto-Next" },
-  { name: "HiAnime", url: "https://hianime.to/", icon: "🔥", description: "Sub / Dub / Auto-Next" },
+const movieList = [
+  { title: "Cineby", encodedUrl: "aHR0cHM6Ly9jaW5lYnkuYXBwLw==", cloaked: false, desc: "Movies / TV / Anime", icon: Film, color: "from-blue-600 to-blue-900", thumb: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1000&auto=format&fit=crop" },
+  { title: "Rive", encodedUrl: "aHR0cHM6Ly9yZnJzaC5yaXZlLmFwcC8=", cloaked: false, desc: "Premium Streaming", icon: Play, color: "from-rose-500 to-rose-800", thumb: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1000&auto=format&fit=crop" },
+  { title: "Flixer", encodedUrl: "aHR0cHM6Ly9mbGl4ZXIudmlwLw==", cloaked: false, desc: "Auto-Next Feature", icon: Popcorn, color: "from-yellow-500 to-orange-700", thumb: "https://images.unsplash.com/photo-1517604931442-710c8ed05254?q=80&w=1000&auto=format&fit=crop" },
+  { title: "VeloraTV", encodedUrl: "aHR0cHM6Ly92ZWxvcmF0di5zdS8=", cloaked: false, desc: "High Quality Streams", icon: Tv, color: "from-purple-600 to-purple-900", thumb: "https://images.unsplash.com/photo-1593784697956-14185ac9489f?q=80&w=1000&auto=format&fit=crop" },
+  { title: "Aether", encodedUrl: "aHR0cHM6Ly9hZXRoZXIubW9tLw==", cloaked: false, desc: "Modern UI", icon: Crown, color: "from-indigo-500 to-blue-800", thumb: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=1000&auto=format&fit=crop" },
+  // Mirrors
+  { title: "Rive (KDrama)", encodedUrl: "aHR0cHM6Ly9yaXZlc3RyZWFtLm9yZy9rZHJhbWE=", cloaked: false, desc: "Asian Drama Focus", icon: Play, color: "from-rose-500 to-rose-800", thumb: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1000&auto=format&fit=crop" },
+  { title: "Flixer (Mirror)", encodedUrl: "aHR0cHM6Ly9mbGl4ZXIuc2gv", cloaked: false, desc: "Backup Link", icon: Popcorn, color: "from-yellow-500 to-orange-700", thumb: "https://images.unsplash.com/photo-1517604931442-710c8ed05254?q=80&w=1000&auto=format&fit=crop" },
+  { title: "VeloraTV (RU)", encodedUrl: "aHR0cHM6Ly92ZWxvcmF0di5ydS8=", cloaked: false, desc: "Backup Link", icon: Tv, color: "from-purple-600 to-purple-900", thumb: "https://images.unsplash.com/photo-1593784697956-14185ac9489f?q=80&w=1000&auto=format&fit=crop" },
 ];
 
-const unblockerShows = [
-  { name: "Cineby", url: "https://cineby.app/", icon: "🎬", description: "Movies / TV / Anime / Auto-Next" },
-  { name: "Rive", url: "https://rivestream.org/kdrama", icon: "🌊", description: "Movies / TV / Anime / Auto-Next" },
-  { name: "Flixer", url: "https://flixer.sh/", icon: "📺", description: "Movies / TV / Anime / Auto-Next" },
-  { name: "VeloraTV", url: "https://veloratv.ru/", icon: "⚡", description: "Movies / TV / Anime / Auto-Next" },
-  { name: "Aether", url: "https://aether.mom/", icon: "🌌", description: "Movies / TV / Anime / Auto-Next" },
+const sportsList = [
+  { title: "StreamEast", encodedUrl: "aHR0cHM6Ly9zdHJlYW1lYXN0LmFwcC8=", cloaked: false, desc: "The GOAT of Sports", icon: Trophy, color: "from-green-600 to-green-900", thumb: "https://images.unsplash.com/photo-1522770179533-24471fcdba45?q=80&w=1000&auto=format&fit=crop" },
+  { title: "MethStreams", encodedUrl: "aHR0cHM6Ly9jcmFja3N0cmVhbXMuYml6Lw==", cloaked: false, desc: "MMA / Boxing / NFL", icon: Flame, color: "from-red-600 to-red-900", thumb: "https://images.unsplash.com/photo-1599586120429-48285b6a8a81?q=80&w=1000&auto=format&fit=crop" },
+  { title: "Streamed.su", encodedUrl: "aHR0cHM6Ly9zdHJlYW1lZC5zdS8=", cloaked: false, desc: "Clean Sports Aggregator", icon: Monitor, color: "from-blue-500 to-blue-800", thumb: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=1000&auto=format&fit=crop" },
+  { title: "DaddyLive", encodedUrl: "aHR0cHM6Ly9kYWRkeWxpdmUubXAv", cloaked: false, desc: "24/7 Live TV Channels", icon: Tv, color: "from-orange-500 to-orange-800", thumb: "https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1000&auto=format&fit=crop" },
+  { title: "Sportsurge", encodedUrl: "aHR0cHM6Ly92Mi5zcG9ydHN1cmdlLm5ldC8=", cloaked: false, desc: "Link Aggregator", icon: Zap, color: "from-slate-600 to-slate-900", thumb: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1000&auto=format&fit=crop" },
+  { title: "NFLBite", encodedUrl: "aHR0cHM6Ly9uZmxiaXRlLmNvbS8=", cloaked: false, desc: "American Football", icon: Gamepad, color: "from-blue-800 to-blue-950", thumb: "https://images.unsplash.com/photo-1611000271746-59914442df7f?q=80&w=1000&auto=format&fit=crop" },
+  { title: "NBAMonster", encodedUrl: "aHR0cHM6Ly9uYmFtb25zdGVyLnh5ei8=", cloaked: false, desc: "Basketball Streams", icon: Trophy, color: "from-orange-600 to-orange-900", thumb: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=1000&auto=format&fit=crop" },
+  { title: "SportyHunter", encodedUrl: "aHR0cHM6Ly9zcG9ydHlodW50ZXIuY29tLw==", cloaked: false, desc: "Live Schedule", icon: Search, color: "from-emerald-600 to-emerald-900", thumb: "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?q=80&w=1000&auto=format&fit=crop" },
 ];
 
-const unblockerSports = [
-  { name: "SportyHunter", url: "https://sportyhunter.com/", icon: "🏆", description: "Live Sports Aggregator" },
-  { name: "Streamed", url: "https://streamed.su/", icon: "📡", description: "Live Sports Streams" },
-  { name: "DaddyLive", url: "https://daddyhd.com/", icon: "📺", description: "TV / Live Sports" },
-  { name: "SportsBite", url: "https://sportsbite.live/", icon: "🏈", description: "Live Sports Streams" },
-  { name: "StreamEast", url: "https://v2.streameast.ga/", icon: "🌅", description: "Live Sports Aggregator" },
-  { name: "Sportsurge", url: "https://v2.sportsurge.net/home5/", icon: "🌊", description: "Sports Aggregator" },
-  { name: "CrackStreams", url: "https://crackstreams.li/", icon: "💥", description: "Live Sports / MMA / Boxing" },
-  { name: "NFLBite", url: "https://nflbite.digital/", icon: "🏈", description: "NFL Streams" },
-  { name: "NBAMonster", url: "https://nbamonster.com/streamlink/", icon: "🏀", description: "Basketball Streams" },
-];
+export const EntertainmentPage = () => {
+  const { prefs } = useUserPrefs();
+  const [searchQuery, setSearchQuery] = useState("");
 
-const EntertainmentPage: React.FC = () => {
+  const allStreams = [...animeList, ...movieList, ...sportsList];
+  
+  const filteredStreams = searchQuery 
+    ? allStreams.filter(s => s.title.toLowerCase().includes(searchQuery.toLowerCase()) || s.desc.toLowerCase().includes(searchQuery.toLowerCase()))
+    : null; // null means show grouped lists
+
+  // Featured Hero Item (HiAnime)
+  const featured = animeList[0];
+
   return (
-    <div className="min-h-screen bg-gamer-bg">
-      <SEO 
-        title="Entertainment Hub - Stream Shows & Movies at School"
-        description="Access your favorite streaming services at school. Watch Netflix, Disney+, Hulu, anime and more unblocked during breaks."
-        keywords="streaming unblocked, watch tv at school, netflix unblocked, anime streaming, entertainment hub"
-      />
-      <Navbar />
-
-      <TopBannerAd />
+    <div className="min-h-screen pb-24 bg-[#121217] text-white overflow-x-hidden">
       
-      <main className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Hero Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Tv className="h-12 w-12 text-gamer-accent" />
-            <h1 className="text-5xl font-rowdies font-bold text-gamer-text">
-              Entertainment Hub
-            </h1>
-            <Popcorn className="h-12 w-12 text-gamer-accent" />
-          </div>
-          <p className="text-xl text-gamer-muted max-w-3xl mx-auto">
-            Watch your favorite shows and movies during breaks! 
-            <span className="text-gamer-accent font-semibold"> Perfect for downtime at school</span>
-          </p>
-        </motion.div>
-
-        {/* Legal Disclaimer - Collapsible */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8"
-        >
-          <details className="group">
-            <summary className="cursor-pointer list-none">
-              <div className="flex items-center gap-2 text-amber-400 text-sm font-medium hover:text-amber-300 transition-colors">
-                <AlertTriangle className="h-4 w-4" />
-                <span>Legal Disclaimer (click to expand)</span>
-                <span className="ml-auto group-open:rotate-180 transition-transform">▼</span>
-              </div>
-            </summary>
-            <Alert className="mt-2 bg-amber-950/30 border-2 border-amber-600/80">
-              <AlertDescription className="text-xs text-amber-100/90 leading-relaxed">
-                <strong className="font-bold text-amber-50">IMPORTANT LEGAL DISCLAIMER:</strong>
-                <br /><br />
-                These links are provided for educational and informational purposes only. 
-                We are not responsible for the content, availability, or legality of third-party services. 
-                Users are responsible for complying with their school&apos;s policies and applicable copyright laws. 
-                By accessing these links, you acknowledge that you use them at your own risk. 
-                We do not host, distribute, or control any of the linked content and cannot be held liable for any issues arising from their use.
-                Always respect content creators and consider supporting official streaming services.
-              </AlertDescription>
-            </Alert>
-          </details>
-        </motion.div>
-
-        {/* Usage Guidelines */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-8"
-        >
-          <Card className="bg-gamer-card border-gamer-border">
-            <CardHeader>
-              <CardTitle className="text-gamer-text flex items-center gap-2">
-                <Film className="h-5 w-5 text-gamer-accent" />
-                Usage Guidelines
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-gamer-muted space-y-2">
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Use during appropriate times (lunch, breaks, free periods)</li>
-                <li>Always prioritize your studies and assignments</li>
-                <li>Keep volume at appropriate levels or use headphones</li>
-                <li>Respect your school's internet usage policies</li>
-                <li>Report any broken links or issues</li>
-              </ul>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <InContentAd className="mb-8" />
-
-        {/* Streaming Services Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <h2 className="text-3xl font-rowdies font-bold text-gamer-text mb-6 text-center">
-            Available Streaming Services
-          </h2>
+      {/* 1. TOP BAR (Dashboard Style) */}
+      <div className="sticky top-0 z-40 bg-[#121217]/90 backdrop-blur-md border-b border-white/5 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 items-center justify-between">
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {streamingServices.map((service, index) => (
-              <motion.div
-                key={service.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
+          {/* Search Bar */}
+          <div className="relative w-full md:w-96 group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-purple-500 transition-colors" size={18} />
+            <Input 
+              placeholder="Search streams..." 
+              className="bg-[#1E1E24] border-white/10 pl-10 text-white placeholder:text-slate-500 focus:border-purple-500/50 rounded-full"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          {/* Gamification Stats */}
+          <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+             <div className="flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-indigo-500/10 px-4 py-2 rounded-full border border-purple-500/20">
+              <Flame className="text-purple-500 fill-purple-500 animate-pulse" size={18} />
+              <span className="font-bold text-purple-400">{prefs.settings.streakCount || 0} Streak</span>
+            </div>
+            <DailyReward streakCount={prefs.settings.streakCount || 0} />
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        
+        {/* 2. FEATURED HERO (Only show if not searching) */}
+        {!searchQuery && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative rounded-3xl overflow-hidden aspect-[21/9] md:aspect-[24/9] mb-12 group cursor-pointer border border-white/5 hover:border-orange-500/50 transition-colors"
+            onClick={() => openSmart(decryptLink(featured.encryptedUrl), !featured.cloaked)}
+          >
+            {/* Background */}
+            <div className="absolute inset-0">
+              <img 
+                src={featured.thumb} 
+                alt="Featured" 
+                className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#121217] via-[#121217]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#121217] via-[#121217]/60 to-transparent" />
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 h-full flex flex-col justify-end p-8 md:p-12">
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
               >
-                <Card 
-                  className="bg-gamer-card border-gamer-border hover:border-gamer-accent transition-all duration-normal h-full cursor-pointer group"
-                  onClick={() => openGameSandbox(service.url)}
+                <div className="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4 shadow-[0_0_15px_rgba(249,115,22,0.5)]">
+                  FEATURED ANIME HUB
+                </div>
+                <h1 className="text-4xl md:text-6xl font-rowdies text-white mb-2 leading-tight">
+                  {featured.title}
+                </h1>
+                <p className="text-xl text-slate-300 font-light mb-4">{featured.desc}</p>
+                <Button 
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 rounded-xl text-lg font-bold shadow-[0_0_20px_rgba(249,115,22,0.4)] hover:shadow-[0_0_30px_rgba(249,115,22,0.6)] transition-all"
                 >
-                  <div className="block h-full">
-                    <CardHeader>
-                      <CardTitle className="text-gamer-text flex items-center gap-2 group-hover:text-gamer-accent transition-colors">
-                        <span className="text-3xl">{service.icon}</span>
-                        <span className="flex-1">{service.name}</span>
-                        <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </CardTitle>
-                      <CardDescription className="text-gamer-muted">
-                        {service.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center gap-2 text-gamer-accent text-sm font-medium">
-                        Open Stream
-                        <ExternalLink className="h-3 w-3" />
-                      </div>
-                    </CardContent>
-                  </div>
-                </Card>
+                  <Play className="fill-white mr-2" size={20} /> Watch Now
+                </Button>
               </motion.div>
-            ))}
-          </div>
-        </motion.div>
+            </div>
+          </motion.div>
+        )}
 
-        {/* Unblocker Required Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12"
-        >
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-rowdies font-bold text-gamer-text mb-2">
-              🔓 Unbl0cker Required
-            </h2>
-            <p className="text-gamer-muted text-sm">
-              These sites may require a proxy/unblocker to access. Check the Utilities page for VPN & Proxy options.
+        {/* 3. ADS */}
+        <div className="mb-12">
+          <TopBannerAd />
+        </div>
+
+        {/* 4. CONTENT GRIDS */}
+        
+        {/* If Searching, show one flat grid */}
+        {searchQuery ? (
+           <SectionGrid title={`Results for "${searchQuery}"`} items={filteredStreams || []} icon={Search} />
+        ) : (
+           <>
+              {/* Anime Section */}
+              <SectionGrid title="Anime Hub" items={animeList} icon={Zap} delay={0.1} />
+              
+              <div className="my-12">
+                <InContentAd />
+              </div>
+
+              {/* Movies Section */}
+              <SectionGrid title="Movies & TV Shows" items={movieList} icon={Clapperboard} delay={0.2} />
+              
+              <div className="my-12">
+                 <InContentAd />
+              </div>
+
+              {/* Sports Section */}
+              <SectionGrid title="Live Sports" items={sportsList} icon={Trophy} delay={0.3} />
+           </>
+        )}
+
+        {/* 5. DISCLAIMER */}
+        <div className="mt-16 mb-8 p-6 bg-white/5 rounded-xl border border-white/10 text-center">
+            <p className="text-xs text-slate-500">
+                TechTips does not host any content. All links point to external third-party services. 
+                Users are responsible for their own media consumption in accordance with school policies.
             </p>
-          </div>
+        </div>
 
-          {/* Anime Section */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-rowdies font-semibold text-gamer-accent mb-4 flex items-center gap-2">
-              🎌 Anime Streaming
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {unblockerAnime.map((service, index) => (
-                <motion.div
-                  key={service.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Card 
-                    className="bg-gamer-card/70 border-gamer-border hover:border-purple-500 transition-all duration-normal cursor-pointer group"
-                    onClick={() => openGameSandbox(service.url)}
-                  >
-                    <CardHeader className="py-4">
-                      <CardTitle className="text-gamer-text flex items-center gap-2 text-lg group-hover:text-purple-400 transition-colors">
-                        <span className="text-2xl">{service.icon}</span>
-                        <span className="flex-1">{service.name}</span>
-                        <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </CardTitle>
-                      <CardDescription className="text-gamer-muted text-xs">
-                        {service.description}
-                      </CardDescription>
-                    </CardHeader>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Shows & Movies Section */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-rowdies font-semibold text-gamer-accent mb-4 flex items-center gap-2">
-              📺 Shows & Movies
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {unblockerShows.map((service, index) => (
-                <motion.div
-                  key={service.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Card 
-                    className="bg-gamer-card/70 border-gamer-border hover:border-blue-500 transition-all duration-normal cursor-pointer group"
-                    onClick={() => openGameSandbox(service.url)}
-                  >
-                    <CardHeader className="py-4">
-                      <CardTitle className="text-gamer-text flex items-center gap-2 text-lg group-hover:text-blue-400 transition-colors">
-                        <span className="text-2xl">{service.icon}</span>
-                        <span className="flex-1">{service.name}</span>
-                        <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </CardTitle>
-                      <CardDescription className="text-gamer-muted text-xs">
-                        {service.description}
-                      </CardDescription>
-                    </CardHeader>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Live Sports Section */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-rowdies font-semibold text-gamer-accent mb-4 flex items-center gap-2">
-              🏆 Live Sports
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {unblockerSports.map((service, index) => (
-                <motion.div
-                  key={service.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Card 
-                    className="bg-gamer-card/70 border-gamer-border hover:border-green-500 transition-all duration-normal cursor-pointer group"
-                    onClick={() => openGameSandbox(service.url)}
-                  >
-                    <CardHeader className="py-4">
-                      <CardTitle className="text-gamer-text flex items-center gap-2 text-lg group-hover:text-green-400 transition-colors">
-                        <span className="text-2xl">{service.icon}</span>
-                        <span className="flex-1">{service.name}</span>
-                        <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </CardTitle>
-                      <CardDescription className="text-gamer-muted text-xs">
-                        {service.description}
-                      </CardDescription>
-                    </CardHeader>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Additional Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 text-center"
-        >
-          <Card className="bg-gamer-card/50 border-gamer-border">
-            <CardContent className="py-6">
-              <p className="text-gamer-muted text-sm">
-                <strong className="text-gamer-text">Note:</strong> These services are maintained by third parties. 
-                Links may change or become unavailable. If you encounter issues, please let us know.
-              </p>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <BottomAd />
-      </main>
-
-      <Footer />
+      </div>
+      <BottomAd />
     </div>
   );
 };
+
+// --- REUSABLE GRID COMPONENT ---
+const SectionGrid = ({ title, items, icon: Icon, delay = 0 }: any) => (
+  <section className="mb-12">
+    <div className="flex items-center justify-between mb-6 px-2">
+      <h2 className="text-2xl font-bold flex items-center gap-2">
+        <Icon className="text-purple-400" /> {title}
+      </h2>
+    </div>
+    
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {items.map((stream: any, idx: number) => (
+        <motion.div
+          key={idx}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: delay + (idx * 0.05) }}
+        >
+          <div
+            onClick={() => openSmart(decryptLink(stream.encryptedUrl), !stream.cloaked)}
+            className="group relative bg-[#1E1E24] rounded-2xl overflow-hidden border border-white/5 hover:border-purple-500/50 transition-all duration-300 hover:shadow-[0_0_25px_rgba(168,85,247,0.15)] hover:-translate-y-1 cursor-pointer h-full flex flex-col"
+          >
+            {/* Banner */}
+            <div className={`h-24 bg-gradient-to-r ${stream.color} relative overflow-hidden`}>
+                <div className="absolute inset-0 bg-black/10" />
+                <stream.icon className="absolute -bottom-4 -right-4 text-white/10 -rotate-12 transform scale-[2.5]" size={64} />
+            </div>
+
+            {/* Icon Badge */}
+            <div className="px-6 -mt-8 relative z-10 flex justify-between items-end">
+                <div className="w-16 h-16 rounded-xl bg-[#1E1E24] p-1 shadow-2xl">
+                  <img 
+                    src={stream.thumb} 
+                    alt="icon" 
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+                <div className="mb-1">
+                  <ChevronRight className="text-slate-600 group-hover:text-purple-400 transition-colors" />
+                </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 pt-3 flex-1 flex flex-col">
+              <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition-colors mb-1">
+                {stream.title}
+              </h3>
+              
+              <p className="text-xs text-slate-400 mb-4 flex-1 line-clamp-2">
+                {stream.desc}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </section>
+);
 
 export default EntertainmentPage;

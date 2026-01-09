@@ -18,6 +18,16 @@ import { useRewardEffects } from "@/hooks/useRewardEffects";
 import "./styles/thanksgiving.css";
 import Index from "./pages/Index";
 import LoginPage from "./pages/LoginPage";
+
+// 🔐 TEMPORARY: Generate encrypted links in console
+import { encryptLink } from "@/utils/crypto";
+console.log("=== ENCRYPTED LINKS GENERATOR ===");
+console.log("HiAnime:", encryptLink("https://hianime.to/"));
+console.log("AnimeKai:", encryptLink("https://animekai.to/"));
+console.log("Miruro:", encryptLink("https://miruro.tv/"));
+console.log("Cineby:", encryptLink("https://cineby.app/"));
+console.log("StreamEast:", encryptLink("https://streameast.app/"));
+console.log("================================");
 import GamesPage from "./pages/GamesPage";
 import GameDetailPage from "./pages/GameDetailPage";
 import EntertainmentPage from "./pages/EntertainmentPage";
