@@ -2,34 +2,35 @@ import React, { useState, useEffect } from "react";
 import { 
   BookOpen, Calculator, Clock, Search, GraduationCap, 
   Atom, Globe, Code, PenTool, Database, 
-  Microscope, ChevronRight, PlayCircle, Quote 
+  Microscope, ChevronRight, PlayCircle, Quote, Check, Copy
 } from "lucide-react";
-Button } from "@/components/ui/butn";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CrdContent, CardHeader, CardTitle } from "@/component/ui/card";
-impor{ Tabs, TabsContent, TabsList, TabsTrigger @/component/ui/tabs";
-import { motion } from "framer-moti";
-import { Lik } from "ract-outer-domimport{Fooer } frm "@/components/Footer";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Footer } from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
-import { GmerHome } from "@/component/GamerHome";
-impor { toast } from "sonner";
+import { GamerHome } from "@/components/GamerHome";
+import { toast } from "sonner";
 
 // --- 🏫 PUBLIC ACADEMIC PAGE ---
 
 const AcademicHome = () => {
   // --- INTERACTIVE TOOL STATES ---
   
-  // 1 Pomodoro Timer
-  const [timeLeft, etTimeLeft] = seState(25 * 60);
-  const [isAtive, setIsAtive] = useStat(fale);
+  // 1. Pomodoro Timer
+  const [timeLeft, setTimeLeft] = useState(25 * 60);
+  const [isActive, setIsActive] = useState(false);
   
-  ueEffect(() => {
+  useEffect(() => {
     let interval: NodeJS.Timeout;
-    if isActive && timeLeft > 0) {
+    if (isActive && timeLeft > 0) {
       interval = setInterval(() => setTimeLeft((t) => t - 1), 1000);
     } else if (timeLeft === 0) {
       setIsActive(false);
-      toast.success();
+      toast.success("Focus session complete!");
     }
     return () => clearInterval(interval);
   }, [isActive, timeLeft]);
@@ -42,29 +43,68 @@ const AcademicHome = () => {
 
   // 2. GPA Calculator
   const [grades, setGrades] = useState([{ grade: '', weight: '' }]);
-  const [gpa, setGpa] = useState<number | null>(null;
+  const [gpa, setGpa] = useState<number | null>(null);
 
   const calculateGPA = () => {
-    let totalPoints = 0    let totalWeights =0;
-grades.forEach(g => {
-      const w = parseFloat(g.weight) || 1; 
-     constscore=parseFloat(g.grade);
+    let totalPoints = 0;
+    let totalWeights = 0;
+    grades.forEach(g => {
+      const w = parseFloat(g.weight) || 1; // Default weight 1.0
+      const score = parseFloat(g.grade);
       if (!isNaN(score)) {
-            totloints = score ts * w;
-        otalWeight+= w;
+        // Simple conversion: 90-100=4, 80-89=3, etc. (Simplified)
+        let points = 0;
+        if (score >= 90) points = 4;
+        else if (score >= 80) points = 3;
+        else if (score >= 70) points = 2;
+        else if (score >= 60) points = 1;
+        
+        totalPoints += points * w;
+        totalWeights += w;
       }
     });
-    settotalWeights > 0 ? totalPoints / totalWeights : 0);
-};
+    const result = totalWeights > 0 ? totalPoints / totalWeights : 0;
+    setGpa(result);
+    toast.success(`GPA Calculated: ${result.toFixed(2)}`);
+  };
 
-    reurn t(
-    <div  className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-teal-100">
+  // 3. Citation Generator
+  const [citeUrl, setCiteUrl] = useState("");
+  const [citeStyle, setCiteStyle] = useState("MLA 9");
+
+  const handleCitation = () => {
+    if (!citeUrl) return toast.error("Please enter a URL first");
+    
+    const date = new Date().toLocaleDateString();
+    let citation = "";
+    
+    if (citeStyle === "MLA 9") {
+      citation = `Unknown Author. "Web Page Title." Website Name, Publisher, ${date}, ${citeUrl}.`;
+    } else if (citeStyle === "APA 7") {
+      citation = `Author, A. A. (Year, Month Date). Title of page. Site Name. ${citeUrl}`;
+    } else {
+      citation = `"${citeUrl}". Accessed ${date}.`;
+    }
+
+    navigator.clipboard.writeText(citation);
+    toast.success("Citation copied to clipboard!", {
+      icon: <Check className="h-4 w-4 text-green-500" />
+    });
+  };
+
+  const scrollToResources = () => {
+    document.getElementById('resources')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-teal-100">
       
       {/* --- HERO SECTION --- */}
-      <section className="bg-white border-b border-slate-200 pt-20pb-16px-6 ">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">        <motion.div
-initial={{pacity: 0, y: 20 }}
-            aimate={{ opacity: 1, y: 0 }}
+      <section className="bg-white border-b border-slate-200 pt-20 pb-16 px-6 relative z-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-800 text-sm font-semibold border border-teal-100">
@@ -84,37 +124,41 @@ initial={{pacity: 0, y: 20 }}
             </p>
             <div className="flex gap-4 pt-2">
               <Button 
-                onsize="lg"       className="bg-teal-700hover:bg-teal-800text-whiterounded-mdpx-8h-12text-base"
+                onClick={scrollToResources}
+                size="lg" 
+                className="bg-teal-700 hover:bg-teal-800 text-white rounded-md px-8 h-12 text-base shadow-sm"
               >
                 Explore Resources
               </Button>
-              <Link to="/login">     <Buttonvariant="outline"size="lg"className="border-slate-300text-slate-700 -12 h-50">
+              <Link to="/login">
+                <Button variant="outline" size="lg" className="border-slate-300 text-slate-700 h-12 hover:bg-slate-50">
                   Student Portal Login
                 </Button>
               </Link>
             </div>
           </motion.div>
 
-          {/* --- INTERACTIVE TOOLS WIDGET -- */}
+          {/* --- INTERACTIVE TOOLS WIDGET --- */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: .2 }}   className="bg-whiterounded-xlshadow-xlborderer-slate-200 ovflowhidden"
+            transition={{ delay: 0.2 }}
+            className="bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden"
           >
-            <div className="g-slate-100px-6 py-3 b border- flex items-center gap-2">
+            <div className="bg-slate-100 px-6 py-3 border-b border-slate-200 flex items-center gap-2">
               <div className="flex gap-1.5">
-                <div className="w-3 h-3 roundedfull bg-slate-300"></div>
-                <div clasNae="w-3 h-3rounded-full bg-sla-300"></div>
+                <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+                <div className="w-3 h-3 rounded-full bg-slate-300"></div>
                 <div className="w-3 h-3 rounded-full bg-slate-300"></div>
               </div>
-              <span className="tefont-eium text-slate-500 ml-2">Quick Tools</span>
+              <span className="text-xs font-medium text-slate-500 ml-2">Quick Tools</span>
             </div>
             
             <Tabs defaultValue="timer" className="w-full">
               <TabsList className="w-full grid grid-cols-3 bg-slate-50 p-1 border-b border-slate-200">
-                <TabsTrigger value="timer" className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs mdt-sm">Focus Timer</TabsTrigger>
-                <TabsTrigger value="calc" className="data-[state=active]:bg-white daa[state=active]:hadow-s">Grade Calc</TabsTrigger>
-               <TabsTrigger value="cite" className="data-[state=aciv]:bg-white data-[state=active]:shadow-sm tet-sm">Citaion</TabsTrigger>
+                <TabsTrigger value="timer" className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs md:text-sm">Focus Timer</TabsTrigger>
+                <TabsTrigger value="calc" className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs md:text-sm">Grade Calc</TabsTrigger>
+                <TabsTrigger value="cite" className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs md:text-sm">Citation</TabsTrigger>
               </TabsList>
               
               {/* POMODORO */}
@@ -125,30 +169,30 @@ initial={{pacity: 0, y: 20 }}
                 <div className="flex justify-center gap-4">
                   <Button 
                     onClick={() => setIsActive(!isActive)}
-                    className={isActive ? "bg-amber-600 hover:bg-amber-700": "bg-al-600 hover:bg-teal-700 te"}
+                    className={isActive ? "bg-amber-600 hover:bg-amber-700 text-white" : "bg-teal-600 hover:bg-teal-700 text-white"}
                   >
-                    {isActive ? "Pase Session" : "Start Focus"}
+                    {isActive ? "Pause Session" : "Start Focus"}
                   </Button>
-                  <Button variant="out" onClick={() => { setIsActive(false); setTimeLeft(25 * 6); }}>
+                  <Button variant="outline" onClick={() => { setIsActive(false); setTimeLeft(25 * 60); }}>
                     Reset
                   </Button>
                 </div>
-                <p className="text-xs text-slate400">Standard Pomodoro: 25m Focus / 5m Break</p>
+                <p className="text-xs text-slate-400">Standard Pomodoro: 25m Focus / 5m Break</p>
               </TabsContent>
 
               {/* GRADE CALC */}
               <TabsContent value="calc" className="p-6 space-y-4">
                 <div className="space-y-2">
                   <div className="flex gap-2 text-sm text-slate-500 font-medium">
-                    <span className="flex-1">Grade (0-0)</span>
-                    <span className="w-2">Weight</span>
+                    <span className="flex-1">Grade (0-100)</span>
+                    <span className="w-20">Weight</span>
                   </div>
                   {grades.map((g, i) => (
                     <div key={i} className="flex gap-2">
                       <Input 
                         placeholder="95" 
                         value={g.grade}
-                        er"
+                        type="number"
                         onChange={(e) => {
                           const newGrades = [...grades];
                           newGrades[i].grade = e.target.value;
@@ -156,8 +200,10 @@ initial={{pacity: 0, y: 20 }}
                         }}
                       />
                       <Input 
-                        placehold="1.0  className="w-20"value={g.weigh}
-                        te="number"
+                        placeholder="1.0" 
+                        className="w-20" 
+                        value={g.weight}
+                        type="number"
                         onChange={(e) => {
                           const newGrades = [...grades];
                           newGrades[i].weight = e.target.value;
@@ -166,14 +212,14 @@ initial={{pacity: 0, y: 20 }}
                       />
                     </div>
                   ))}
-                  <Button variant="link" onClick={() => stGrades([...grades, { grade: '', weight: '' }])} classNametext-teal-600 h-auto p-0 text-xs">
+                  <Button variant="link" onClick={() => setGrades([...grades, { grade: '', weight: '' }])} className="text-teal-600 h-auto p-0 text-xs">
                     + Add Course
-                  </Butto>
+                  </Button>
                 </div>
-                <div className="flex jstify-between ites-center bg-slate-100 p-3 rounded-lg ord border-slate-200">
-                  <Button onClick={calculateGPA} size="sm" className=bg-slate-800ite">Calculate</Button>
+                <div className="flex justify-between items-center bg-slate-100 p-3 rounded-lg border border-slate-200">
+                  <Button onClick={calculateGPA} size="sm" className="bg-slate-800 hover:bg-slate-900 text-white">Calculate</Button>
                   <div className="text-right">
-                    <span className="text-xs text-slate-500 block uppercase trackng-wide">Weighd A</span>
+                    <span className="text-xs text-slate-500 block uppercase tracking-wide">Weighted GPA (4.0)</span>
                     <span className="text-xl font-bold text-teal-700">{gpa !== null ? gpa.toFixed(2) : '--'}</span>
                   </div>
                 </div>
@@ -182,64 +228,82 @@ initial={{pacity: 0, y: 20 }}
               {/* CITATION */}
               <TabsContent value="cite" className="p-6 space-y-4">
                 <div className="space-y-3">
-                 <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-500">Source URL</label>  <Input
-                    placeholder="https://...
-                    /></div>
-                 <div className="space-y-1<labelclassName="text-xs font-semibold text-slate-500">Style</label>
-                   <div className="flex gap-2">
-                      ">
-                     <Button  variant="outline"size="sm"  className=flex-1  "bg-teal-50 border-teal-200text-teal-700                   >
-       sle  </Button>
-                      
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-500">Source URL</label>
+                    <Input 
+                      placeholder="https://www.example.com/article" 
+                      value={citeUrl}
+                      onChange={(e) => setCiteUrl(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-500">Style</label>
+                    <div className="flex gap-2">
+                      {["MLA 9", "APA 7", "Chicago"].map((style) => (
+                        <Button 
+                          key={style}
+                          onClick={() => setCiteStyle(style)}
+                          variant="outline" 
+                          size="sm" 
+                          className={`flex-1 ${citeStyle === style ? "bg-teal-50 border-teal-200 text-teal-700" : ""}`}
+                        >
+                          {style}
+                        </Button>
+                      ))}
                     </div>
                   </div>
-                  <Button  className="w-fullbg-slate-800 mt-2">Generate Co               </Button>
-</dv>
+                  <Button 
+                    onClick={handleCitation}
+                    className="w-full bg-slate-800 hover:bg-slate-900 text-white mt-2"
+                  >
+                    <Copy className="w-4 h-4 mr-2" /> Generate & Copy
+                  </Button>
+                </div>
               </TabsContent>
             </Tabs>
-          </motion.iv>
+          </motion.div>
         </div>
       </section>
 
       {/* --- CURATED RESOURCES GRID --- */}
-      <main idclasName="max-w-7xl mx-auto px-6 py-16 scroll-mt-20">
+      <main id="resources" className="max-w-7xl mx-auto px-6 py-16 scroll-mt-20">
         <div className="flex items-center justify-between mb-10">
           <div>
             <h2 className="text-2xl font-bold text-slate-900">Curated Learning Directory</h2>
-            <p className="text-slate-500">Verified resoures fo research and develpment.</p>
+            <p className="text-slate-500">Verified resources for research and development.</p>
           </div>
-          <div cassName="reative hidden md:block w64">
-            <Search classNae="absolute left-3 op.5 h-4 w-4 text-slate-40" />
-            <Input placeholder="Search resources..." className="pl-9e" />
+          <div className="relative hidden md:block w-64">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+            <Input placeholder="Search resources..." className="pl-9 bg-white" />
           </div>
         </div>
 
-        <div classNam="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                   {/* STEM CARD */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          {/* STEM CARD */}
           <ResourceCard 
             icon={Atom} 
-            title="Science & Mat" 
-            color="text-blue600"
+            title="Science & Math" 
+            color="text-blue-600"
             bg="bg-blue-50"
             links={[
               { label: "WolframAlpha", url: "https://www.wolframalpha.com" },
               { label: "Desmos Graphing", url: "https://www.desmos.com/calculator" },
               { label: "PhET Simulations", url: "https://phet.colorado.edu/" },
-              { label: "The Feynman Lectures", url: "https://www.eynmanlectres.catech.edu/" },
-              { abel: "Khan Academy", ul: "https://www.khanacadmy.org/"},
+              { label: "The Feynman Lectures", url: "https://www.feynmanlectures.caltech.edu/" },
+              { label: "Khan Academy", url: "https://www.khanacademy.org/" },
             ]}
           />
 
           {/* CODING CARD */}
           <ResourceCard 
-            ico={Cde} 
-            title="Cmutr Sciece" 
-            colo="text-emerald-600"
+            icon={Code} 
+            title="Computer Science" 
+            color="text-emerald-600"
             bg="bg-emerald-50"
-            link={[
-             { label: "CS50 Harvard", url: "https://s50.harvard.ed/x/" },
-              { label: "The Odin Prject", ul: "https://www.theodinproject.com/" },
+            links={[
+              { label: "CS50 Harvard", url: "https://cs50.harvard.edu/x/" },
+              { label: "The Odin Project", url: "https://www.theodinproject.com/" },
               { label: "MDN Web Docs", url: "https://developer.mozilla.org/" },
               { label: "Replit IDE", url: "https://replit.com/" },
               { label: "LeetCode", url: "https://leetcode.com/" },
@@ -250,14 +314,14 @@ initial={{pacity: 0, y: 20 }}
           <ResourceCard 
             icon={Globe} 
             title="Humanities & Lang" 
-            color="textamber-600"
+            color="text-amber-600"
             bg="bg-amber-50"
             links={[
               { label: "Duolingo Schools", url: "https://schools.duolingo.com/" },
               { label: "Project Gutenberg", url: "https://www.gutenberg.org/" },
               { label: "Stanford Philosophy", url: "https://plato.stanford.edu/" },
               { label: "National Archives", url: "https://www.archives.gov/" },
-              { label: "Google Arts & Culture", url: "htts://artsandculture.google.com/" },
+              { label: "Google Arts & Culture", url: "https://artsandculture.google.com/" },
             ]}
           />
 
@@ -265,14 +329,14 @@ initial={{pacity: 0, y: 20 }}
           <ResourceCard 
             icon={Database} 
             title="Academic Research" 
-            colr="text-purple-600"
+            color="text-purple-600"
             bg="bg-purple-50"
-            lks={[
+            links={[
               { label: "Google Scholar", url: "https://scholar.google.com/" },
               { label: "JSTOR", url: "https://www.jstor.org/" },
               { label: "Purdue OWL", url: "https://owl.purdue.edu/" },
               { label: "Zotero Bib", url: "https://zbib.org/" },
-              { label: "ResearchRabbit", url: "htps://www.resarchabbit.ai/" },
+              { label: "ResearchRabbit", url: "https://www.researchrabbit.ai/" },
             ]}
           />
 

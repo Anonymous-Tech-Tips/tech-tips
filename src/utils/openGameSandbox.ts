@@ -1,6 +1,5 @@
 // src/utils/openGameSandbox.ts
 
-// 🔒 THE NEW SMART OPENER (Internal Logic)
 export function openSmart(url: string, forceRedirect: boolean = false) {
   if (!url || url === "#") return;
 
@@ -8,18 +7,20 @@ export function openSmart(url: string, forceRedirect: boolean = false) {
   if (!win) return;
 
   // STRATEGY A: DIRECT REDIRECT (For Miruro, Netflix, Disney+)
-  // Use this if the site has "X-Frame-Options: DENY" (The Firefox Error)
+  // We can't hide the URL here because these sites block iframes.
+  // But we CAN strip the referrer so they don't know the traffic came from you.
   if (forceRedirect) {
     win.document.write(`
       <!DOCTYPE html>
       <html>
-        <head><title>Loading...</title></head>
+        <head><title>Connecting...</title></head>
         <body style="background: #121217; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
           <div style="text-align: center;">
-            <p>Connecting securely...</p>
+            <p>Establishing secure connection...</p>
           </div>
           <script>
-            // Strip referrer so they don't know you came from school
+            // The "noreferrer" reset
+            window.opener = null;
             window.location.replace("${url}");
           </script>
         </body>
@@ -27,8 +28,9 @@ export function openSmart(url: string, forceRedirect: boolean = false) {
     `);
   } 
   
-  // STRATEGY B: IFRAME CLOAK (For Google Slides, Canva, Games)
-  // Keeps the URL hidden in the bar
+  // STRATEGY B: THE "BLACK BOX" CLOAK (For Slides, Games, Proxies)
+  // This hides the URL in the address bar (stays as about:blank)
+  // AND prevents rivals from right-clicking to inspect the iframe source.
   else {
     win.document.write(`
       <!DOCTYPE html>
@@ -40,6 +42,25 @@ export function openSmart(url: string, forceRedirect: boolean = false) {
             body { background: #000; overflow: hidden; }
             iframe { width: 100vw; height: 100vh; border: none; }
           </style>
+          <script>
+            // 🛡️ ANTI-THEFT PROTECTION 🛡️
+            
+            // 1. Disable Right Click
+            document.addEventListener('contextmenu', event => event.preventDefault());
+            
+            // 2. Disable F12, Ctrl+Shift+I, Ctrl+U (View Source)
+            document.onkeydown = function(e) {
+              if(event.keyCode == 123) { return false; }
+              if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
+              if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+              if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { false; }
+              if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
+            }
+
+            // 3. Console Warning (Psychological Warfare)
+            console.log("%c STOP!", "color: red; font-size: 50px; font-weight: bold;");
+            console.log("%c This source code is protected. Access attempts are logged.", "color: white; font-size: 20px;");
+          </script>
         </head>
         <body>
           <iframe src="${url}" allowfullscreen></iframe>
@@ -50,14 +71,11 @@ export function openSmart(url: string, forceRedirect: boolean = false) {
   win.document.close();
 }
 
-// 🎮 BACKWARD COMPATIBILITY EXPORT (Crucial!)
-// This fixes the crash by restoring the function your Games Pages are looking for.
-// It simply redirects to the new 'openSmart' using the default Cloaked strategy.
+// BACKWARDS COMPATIBILITY
 export function openGameSandbox(realUrl: string) {
-  openSmart(realUrl, false); // Games usually support cloaking
+  openSmart(realUrl, false); 
 }
 
-// 📺 EXPORT FOR STREAMING
 export function openStream(realUrl: string) {
-  openSmart(realUrl, true); // Force redirect for streams by default (safer for Firefox)
+  openSmart(realUrl, true);
 }
