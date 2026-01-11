@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navbar } from '@/components/Navbar';
 import { ProfileSection } from '@/components/rewards/ProfileSection';
 import { GameStats } from '@/components/rewards/GameStats';
 import { GameRequestForm } from '@/components/rewards/GameRequestForm';
@@ -17,7 +16,6 @@ const ProfilePage = () => {
     <>
       <SEO title="Profile | Tech Tips" description="Customize your profile and preferences" />
       <div className="min-h-screen bg-gamer-bg">
-        <Navbar />
         <TopBannerAd />
         <OfflineModeIndicator />
         <div className="max-w-7xl mx-auto px-4 py-8">

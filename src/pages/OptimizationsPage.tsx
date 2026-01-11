@@ -1,6 +1,5 @@
 import React from "react";
 import { Cpu } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
 import { ShareBanner } from "@/components/ShareBanner";
 import { ContentSection } from "@/components/ContentSection";
 import { SEO } from "@/components/SEO";
@@ -17,8 +16,6 @@ const OptimizationsPage = () => {
       />
       <div className="min-h-screen bg-gamer-bg">
         <ShareBanner />
-        <Navbar />
-
         <TopBannerAd />
 
         <ContentSection

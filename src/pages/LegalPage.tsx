@@ -1,5 +1,4 @@
 import React from "react";
-import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,8 +12,6 @@ const LegalPage = () => {
         keywords="legal disclaimer, terms of use, external links, game collection"
       />
       <div className="min-h-screen bg-gamer-bg">
-        <Navbar />
-
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-3xl md:text-4xl font-rowdies font-bold text-gamer-text mb-8">
             Legal Disclaimer & Terms of Use

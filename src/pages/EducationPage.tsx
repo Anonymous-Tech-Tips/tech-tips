@@ -1,6 +1,5 @@
 import React from "react";
 import { GraduationCap, BookOpen, Code, Calculator, Globe, Film, FlaskConical, Languages, Gamepad2, Brain } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
 import { ShareBanner } from "@/components/ShareBanner";
 import { ContentSection } from "@/components/ContentSection";
 import { SEO } from "@/components/SEO";
@@ -122,8 +121,6 @@ const EducationPage = () => {
       />
       <div className={`min-h-screen ${isAuthenticated ? "bg-gamer-bg" : "bg-background"}`}>
         <ShareBanner />
-        <Navbar />
-
         <TopBannerAd />
 
         {/* NutriSnap Premium Promo */}

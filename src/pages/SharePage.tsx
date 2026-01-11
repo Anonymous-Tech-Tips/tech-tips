@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { Copy, Check, Share2, QrCode, Code, MessageSquare } from "lucide-react";
@@ -80,8 +79,6 @@ ${siteUrl}`,
         keywords="share games, unblocked games link, games hub share, qr code games"
       />
       <div className="min-h-screen bg-gamer-bg">
-        <Navbar />
-
         <TopBannerAd />
 
         <main className="max-w-5xl mx-auto px-4 py-12">

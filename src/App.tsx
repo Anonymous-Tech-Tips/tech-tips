@@ -16,6 +16,7 @@ import SeasonalTheme from "@/components/SeasonalTheme";
 import { SeasonalEffects } from "@/components/SeasonalEffects";
 import { useRewardEffects } from "@/hooks/useRewardEffects";
 import "./styles/thanksgiving.css";
+import { Layout } from "@/components/Layout";
 import Index from "./pages/Index";
 import LoginPage from "./pages/LoginPage";
 
@@ -103,26 +104,29 @@ const AppContent = () => {
       <div className="relative min-h-screen">
         <OfflineModeIndicator />
         <Routes>
+          {/* Routes WITHOUT Layout (no navbar) */}
           <Route path="/login" element={<LoginPage />} />
-          <Route index element={<Index />} />
-          <Route path="/" element={<Index />} />
-          <Route path="/games" element={<ProtectedRoute><GamesPage /></ProtectedRoute>} />
-          <Route path="/games/:id" element={<ProtectedRoute><GameDetailPage /></ProtectedRoute>} />
-          <Route path="/entertainment" element={<ProtectedRoute><EntertainmentPage /></ProtectedRoute>} />
-          <Route path="/utilities" element={<ProtectedRoute><UtilitiesPage /></ProtectedRoute>} />
-          <Route path="/utilities/:id" element={<ProtectedRoute><UtilityDetailPage /></ProtectedRoute>} />
-          <Route path="/optimizations" element={<ProtectedRoute><OptimizationsPage /></ProtectedRoute>} />
-          <Route path="/education" element={<ProtectedRoute><EducationPage /></ProtectedRoute>} />
-          <Route path="/links" element={<ProtectedRoute><LinksPage /></ProtectedRoute>} />
-          <Route path="/updates" element={<ProtectedRoute><UpdatesPage /></ProtectedRoute>} />
-          <Route path="/legal" element={<ProtectedRoute><LegalPage /></ProtectedRoute>} />
-          <Route path="/rewards" element={<ProtectedRoute><RewardsShop /></ProtectedRoute>} />
-          
-          
-          <Route path="/share" element={<ProtectedRoute><SharePage /></ProtectedRoute>} />
-          <Route path="/seo-setup" element={<ProtectedRoute><SEOSetupPage /></ProtectedRoute>} />
           <Route path="/safe" element={<SafeModePage />} />
-          <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
+          <Route path="/games/:id" element={<ProtectedRoute><GameDetailPage /></ProtectedRoute>} />
+          <Route path="/utilities/:id" element={<ProtectedRoute><UtilityDetailPage /></ProtectedRoute>} />
+          
+          {/* Routes WITH Layout (navbar included) */}
+          <Route element={<Layout />}>
+            <Route index element={<Index />} />
+            <Route path="/" element={<Index />} />
+            <Route path="/games" element={<ProtectedRoute><GamesPage /></ProtectedRoute>} />
+            <Route path="/entertainment" element={<ProtectedRoute><EntertainmentPage /></ProtectedRoute>} />
+            <Route path="/utilities" element={<ProtectedRoute><UtilitiesPage /></ProtectedRoute>} />
+            <Route path="/optimizations" element={<ProtectedRoute><OptimizationsPage /></ProtectedRoute>} />
+            <Route path="/education" element={<ProtectedRoute><EducationPage /></ProtectedRoute>} />
+            <Route path="/links" element={<ProtectedRoute><LinksPage /></ProtectedRoute>} />
+            <Route path="/updates" element={<ProtectedRoute><UpdatesPage /></ProtectedRoute>} />
+            <Route path="/legal" element={<ProtectedRoute><LegalPage /></ProtectedRoute>} />
+            <Route path="/rewards" element={<ProtectedRoute><RewardsShop /></ProtectedRoute>} />
+            <Route path="/share" element={<ProtectedRoute><SharePage /></ProtectedRoute>} />
+            <Route path="/seo-setup" element={<ProtectedRoute><SEOSetupPage /></ProtectedRoute>} />
+            <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
+          </Route>
         </Routes>
       </div>
     </>

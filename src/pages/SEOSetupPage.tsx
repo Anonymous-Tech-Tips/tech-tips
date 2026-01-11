@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { Check, Copy, Search, FileCode, Globe, TrendingUp } from "lucide-react";
@@ -41,8 +40,6 @@ const SEOSetupPage = () => {
         keywords="seo setup, google search console, github pages seo, search engine optimization"
       />
       <div className="min-h-screen bg-gamer-bg">
-        <Navbar />
-
         <main className="max-w-5xl mx-auto px-4 py-12">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">

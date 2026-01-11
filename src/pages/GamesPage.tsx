@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Search, Gamepad2, Filter, Zap, Ghost, Car, Trophy, Brain } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Link, useSearchParams } from "react-router-dom";
@@ -38,8 +37,6 @@ const GamesPage = () => {
 
   return (
     <div className="min-h-screen bg-[#121217] text-slate-100 font-sans">
-      <Navbar />
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         {/* HEADER & SEARCH */}

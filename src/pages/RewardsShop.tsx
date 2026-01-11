@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import { useRewardEffects } from '@/hooks/useRewardEffects';
-import { Navbar } from '@/components/Navbar';
 import { SEO } from '@/components/SEO';
 import { TopBannerAd, BottomAd } from '@/components/GoogleAd';
 
@@ -93,7 +92,6 @@ const RewardsShop: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <SEO title="Theme Shop | Tech Tips" description="Customize your experience with themes" />
       <div className="container mx-auto px-4 py-8 min-h-screen bg-gamer-bg">
         <TopBannerAd />
