@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, Share2, ArrowLeft } from 'lucide-react';
 import { useUserPrefs } from '@/contexts/UserPrefsContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useProgression } from '@/contexts/ProgressionContext';
 import { hash, asset, canonical } from '@/lib/paths';
 import { thumb } from '@/lib/thumb';
 import { SEO } from '@/components/SEO';
@@ -17,12 +18,17 @@ export default function GameDetailPage() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { prefs, toggleFavorite, pushHistory } = useUserPrefs();
+  const { trackGamePlay } = useProgression();
   const game = games.find(g => g.id === id);
   if (!game) return <div className="p-8 text-center">Game not found</div>;
 
   const fav = prefs.favorites.includes(game.id);
   const play = () => {
     pushHistory(game.id, 'game');
+    // Track game play for progression system
+    if (isAuthenticated) {
+      trackGamePlay(game.id, game.title);
+    }
     openGameSandbox(game.url);
   };
   const share = async () => {

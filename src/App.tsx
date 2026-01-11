@@ -9,6 +9,7 @@ import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { UserPrefsProvider } from "@/contexts/UserPrefsContext";
 import { RewardsProvider } from "@/contexts/RewardsContext";
+import { ProgressionProvider } from "@/contexts/ProgressionContext";
 import { CommandPalette } from "@/components/CommandPalette";
 import { CoachMarks } from "@/components/CoachMarks";
 import { OfflineModeIndicator } from "@/components/rewards/OfflineModeIndicator";
@@ -41,7 +42,7 @@ import UpdatesPage from "./pages/UpdatesPage";
 import LegalPage from "./pages/LegalPage";
 import NotFound from "./pages/NotFound";
 import RewardsShop from "./pages/RewardsShop";
-
+import ShopPage from "./pages/ShopPage";
 
 import ProfilePage from "./pages/ProfilePage";
 import SharePage from "./pages/SharePage";
@@ -123,6 +124,7 @@ const AppContent = () => {
             <Route path="/updates" element={<ProtectedRoute><UpdatesPage /></ProtectedRoute>} />
             <Route path="/legal" element={<ProtectedRoute><LegalPage /></ProtectedRoute>} />
             <Route path="/rewards" element={<ProtectedRoute><RewardsShop /></ProtectedRoute>} />
+            <Route path="/shop" element={<ProtectedRoute><ShopPage /></ProtectedRoute>} />
             <Route path="/share" element={<ProtectedRoute><SharePage /></ProtectedRoute>} />
             <Route path="/seo-setup" element={<ProtectedRoute><SEOSetupPage /></ProtectedRoute>} />
             <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
@@ -139,15 +141,17 @@ const App = () => {
       <TooltipProvider>
         <AuthProvider>
           <RewardsProvider>
-            <UserPrefsProvider>
-              <Toaster />
-              <Sonner />
-              <CommandPalette />
-              <CoachMarks />
-              <SeasonalTheme />
-              <SeasonalEffects />
-              <AppContent />
-            </UserPrefsProvider>
+            <ProgressionProvider>
+              <UserPrefsProvider>
+                <Toaster />
+                <Sonner />
+                <CommandPalette />
+                <CoachMarks />
+                <SeasonalTheme />
+                <SeasonalEffects />
+                <AppContent />
+              </UserPrefsProvider>
+            </ProgressionProvider>
           </RewardsProvider>
         </AuthProvider>
       </TooltipProvider>

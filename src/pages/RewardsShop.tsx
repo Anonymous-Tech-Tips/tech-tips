@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRewards } from '@/contexts/RewardsContext';
+import { useProgression } from '@/contexts/ProgressionContext';
 import { useUserPrefs } from '@/contexts/UserPrefsContext';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -57,7 +57,8 @@ const rewards = [
 ];
 
 const RewardsShop: React.FC = () => {
-  const { points, purchaseItem, purchases } = useRewards();
+  const { progress, purchaseItem, purchases } = useProgression();
+  const points = progress.totalPoints;
   const { prefs, setSetting } = useUserPrefs();
   const rewardEffects = useRewardEffects();
   

@@ -1,34 +1,29 @@
 import React, { useState } from "react";
-import { Menu, X, Command, Coins, Gift, LogOut } from "lucide-react";
+import { Menu, X, Command, Coins, Gift, LogOut, Sparkles, TrendingUp, ChevronDown } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProgression } from "@/contexts/ProgressionContext";
 import { ShareButton } from "./ShareButton";
 import { StreakBadge } from "./StreakBadge";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 export const Navbar: React.FC = () => {
   const { isAuthenticated, logout, user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [points, setPoints] = useState(() => parseInt(localStorage.getItem('rewardPoints') || '0'));
+  const { progress, getCurrentRank, getLevelProgress, getNextRank } = useProgression();
 
-  // Debug logging
-  console.log('Navbar Debug - isAuthenticated:', isAuthenticated);
-  console.log('Navbar Debug - user:', user);
-
-  // Update points when localStorage changes
-  React.useEffect(() => {
-    const handleStorage = () => {
-      setPoints(parseInt(localStorage.getItem('rewardPoints') || '0'));
-    };
-    window.addEventListener('storage', handleStorage);
-    const interval = setInterval(handleStorage, 1000); // Check every second
-    return () => {
-      window.removeEventListener('storage', handleStorage);
-      clearInterval(interval);
-    };
-  }, []);
+  const currentRank = getCurrentRank();
+  const nextRank = getNextRank();
 
   const navLinks = [
     { label: "Home", href: "/", isRoute: true },
@@ -37,7 +32,7 @@ export const Navbar: React.FC = () => {
           { label: "Games", href: "/games", requiresAuth: true, isRoute: true },
           { label: "Entertainment", href: "/entertainment", requiresAuth: true, isRoute: true },
           { label: "Utilities", href: "/utilities", requiresAuth: true, isRoute: true },
-          { label: "Education", href: "/education", requiresAuth: true, isRoute: true },
+          // Education removed from authenticated navbar
         ]
       : [
           { label: "Utilities", href: "#utilities", isRoute: false },
@@ -65,31 +60,91 @@ export const Navbar: React.FC = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
-              {isAuthenticated && points > 0 && (
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30">
-                  <Coins className="w-4 h-4 text-yellow-500" />
-                  <span className="text-sm font-bold text-gamer-text">
-                    {points.toLocaleString()}
-                  </span>
-                  {/* Show 2x indicator if double points is active */}
-                  {(() => {
-                    const doublePointsUntil = localStorage.getItem('doublePointsActiveUntil');
-                    const isActive = doublePointsUntil && new Date(doublePointsUntil) > new Date();
-                    return isActive ? (
-                      <span className="text-xs font-bold text-yellow-400 animate-pulse">⚡2x</span>
-                    ) : null;
-                  })()}
-                </div>
+            <div className="hidden md:flex items-center gap-3">
+              {isAuthenticated && (
+                <>
+                  {/* Single Primary Indicator with Dropdown */}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button 
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gamer-card/80 border border-gamer-border hover:bg-gamer-card transition-colors"
+                        title="View progression details"
+                      >
+                        <span className="text-xl">{currentRank.icon}</span>
+                        <div className="flex flex-col items-start">
+                          <span className="text-xs text-gamer-muted leading-none">Lv.{progress.level}</span>
+                          <span className="text-sm font-semibold text-gamer-text leading-tight">{currentRank.name}</span>
+                        </div>
+                        <ChevronDown className="w-4 h-4 text-gamer-muted ml-1" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-72 bg-gamer-card border-gamer-border">
+                      <DropdownMenuLabel className="text-gamer-text">Your Progress</DropdownMenuLabel>
+                      <DropdownMenuSeparator className="bg-gamer-border" />
+                      
+                      {/* Points */}
+                      <div className="px-2 py-3 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-gamer-muted flex items-center gap-1">
+                            <Coins className="w-4 h-4 text-yellow-500" />
+                            Points
+                          </span>
+                          <span className="text-sm font-bold text-gamer-text">{progress.totalPoints.toLocaleString()}</span>
+                        </div>
+                        
+                        {/* Level Progress */}
+                        <div>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-xs text-gamer-muted">Level Progress</span>
+                            <span className="text-xs text-gamer-muted">{Math.round(getLevelProgress())}%</span>
+                          </div>
+                          <div className="w-full h-2 bg-gamer-bg rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-gradient-to-r from-gamer-accent to-amber-500 transition-all duration-300"
+                              style={{ width: `${getLevelProgress()}%` }}
+                            />
+                          </div>
+                        </div>
+                        
+                        {/* Streak */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-gamer-muted flex items-center gap-1">
+                            <span>🔥</span>
+                            Streak
+                          </span>
+                          <span className="text-sm font-bold text-gamer-text">{progress.streakCount} days</span>
+                        </div>
+                        
+                        {/* Next Rank */}
+                        {nextRank && (
+                          <div className="flex items-center justify-between pt-2 border-t border-gamer-border">
+                            <span className="text-xs text-gamer-muted">Next Rank</span>
+                            <span className="text-sm font-semibold text-gamer-text">{nextRank.icon} {nextRank.name}</span>
+                          </div>
+                        )}
+                      </div>
+                      
+                      <DropdownMenuSeparator className="bg-gamer-border" />
+                      
+                      <DropdownMenuItem 
+                        onClick={() => navigate('/profile')}
+                        className="text-gamer-text hover:bg-gamer-bg cursor-pointer"
+                      >
+                        <TrendingUp className="w-4 h-4 mr-2" />
+                        View Full Stats
+                      </DropdownMenuItem>
+                      
+                      <DropdownMenuItem 
+                        onClick={() => navigate('/shop')}
+                        className="text-gamer-text hover:bg-gamer-bg cursor-pointer"
+                      >
+                        <Sparkles className="w-4 h-4 mr-2" />
+                        Visit Shop
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </>
               )}
-              {isAuthenticated && (() => {
-                const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
-                return purchases.includes('vip-status') ? (
-                  <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg animate-pulse-subtle">
-                    <span className="text-xs font-bold">👑 VIP</span>
-                  </div>
-                ) : null;
-              })()}
               {navLinks.map((link) => {
                 if (link.requiresAuth && !isAuthenticated) return null;
                 if (link.isRoute) {

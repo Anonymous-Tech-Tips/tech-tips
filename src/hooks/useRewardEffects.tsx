@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { useRewards } from '@/contexts/RewardsContext';
+import { useProgression } from '@/contexts/ProgressionContext';
 import { useUserPrefs } from '@/contexts/UserPrefsContext';
 
 export const useRewardEffects = () => {
-  const { purchases } = useRewards();
+  const { purchases } = useProgression();
   const { prefs, setSetting } = useUserPrefs();
   
   const activeTheme = prefs.settings.activeTheme;

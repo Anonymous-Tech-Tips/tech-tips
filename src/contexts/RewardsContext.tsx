@@ -1,5 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
+/**
+ * @deprecated This context is deprecated and will be removed in a future version.
+ * Use ProgressionContext instead for all points, purchases, and progression features.
+ * 
+ * This context is maintained for backward compatibility only.
+ * All new code should use: import { useProgression } from '@/contexts/ProgressionContext'
+ */
+
 interface RewardsContextType {
   points: number;
   addPoints: (amount: number) => void;
@@ -125,10 +133,22 @@ export const RewardsProvider: React.FC<{ children: React.ReactNode }> = ({ child
   );
 };
 
+/**
+ * @deprecated Use useProgression() instead
+ * This hook is maintained for backward compatibility only.
+ */
 export const useRewards = () => {
   const context = useContext(RewardsContext);
   if (!context) {
     throw new Error('useRewards must be used within a RewardsProvider');
   }
+  
+  // Log deprecation warning in development
+  if (import.meta.env.DEV) {
+    console.warn(
+      '[DEPRECATED] useRewards() is deprecated. Use useProgression() from ProgressionContext instead.'
+    );
+  }
+  
   return context;
 };

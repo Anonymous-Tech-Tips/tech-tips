@@ -71,73 +71,87 @@ const UtilitiesPage = () => {
         keywords="password generator, color picker, text converter, qr code generator, free utilities, online tools, adblocker, vpn, proxy, streaming"
       />
       <div className={`min-h-screen ${isAuthenticated ? "bg-gamer-bg" : "bg-background"}`}>
-        <ShareBanner />
-        <TopBannerAd />
-
         {isAuthenticated ? (
           <>
-            {/* Premium Utilities */}
-            <ContentSection
-              id="premium-utilities"
-              icon={Zap}
-              title="🎁 Premium Tools"
-              description="Exclusive tools for members"
-              items={premiumUtilities}
-            />
+            {/* Authenticated view - consistent with Games/Profile/Rewards pages */}
+            <TopBannerAd />
+            
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <h1 className="text-3xl md:text-4xl font-bold font-rowdies text-gamer-text mb-8">
+                🛠️ Utilities & Tools
+              </h1>
 
-            <InContentAd />
+              {/* Premium Utilities */}
+              <ContentSection
+                id="premium-utilities"
+                icon={Zap}
+                title="🎁 Premium Tools"
+                description="Exclusive tools for members"
+                items={premiumUtilities}
+              />
 
-            {/* Adblocking & Privacy */}
-            <ContentSection
-              id="adblock-privacy"
-              icon={Shield}
-              title="🛡️ Adblocking & Privacy"
-              description="Block ads, trackers, and protect your privacy"
-              items={adblockPrivacy}
-            />
+              <InContentAd />
 
-            {/* VPN & Proxy */}
-            <ContentSection
-              id="vpn-proxy"
-              icon={Lock}
-              title="🔐 VPN & Proxy"
-              description="Bypass restrictions and browse anonymously"
-              items={vpnProxy}
-            />
+              {/* Adblocking & Privacy */}
+              <ContentSection
+                id="adblock-privacy"
+                icon={Shield}
+                title="🛡️ Adblocking & Privacy"
+                description="Block ads, trackers, and protect your privacy"
+                items={adblockPrivacy}
+              />
 
-            <InContentAd />
+              {/* VPN & Proxy */}
+              <ContentSection
+                id="vpn-proxy"
+                icon={Lock}
+                title="🔐 VPN & Proxy"
+                description="Bypass restrictions and browse anonymously"
+                items={vpnProxy}
+              />
 
-            {/* Streaming */}
-            <ContentSection
-              id="streaming"
-              icon={Eye}
-              title="🎬 Streaming & Entertainment"
-              description="Free movies, TV, and media"
-              items={streaming}
-            />
+              <InContentAd />
 
-            {/* Productivity */}
-            <ContentSection
-              id="productivity"
-              icon={Wrench}
-              title="⚙️ Productivity Tools"
-              description="Essential everyday utilities"
-              items={productivity}
-            />
+              {/* Streaming */}
+              <ContentSection
+                id="streaming"
+                icon={Eye}
+                title="🎬 Streaming & Entertainment"
+                description="Free movies, TV, and media"
+                items={streaming}
+              />
+
+              {/* Productivity */}
+              <ContentSection
+                id="productivity"
+                icon={Wrench}
+                title="⚙️ Productivity Tools"
+                description="Essential everyday utilities"
+                items={productivity}
+              />
+            </main>
+
+            <BottomAd />
+            <Footer />
           </>
         ) : (
-          <ContentSection
-            id="utilities"
-            icon={Wrench}
-            title="Utilities & Tools"
-            description="Essential tools and utilities to enhance your experience"
-            items={publicItems}
-          />
+          <>
+            {/* Unauthenticated view - public layout */}
+            <ShareBanner />
+            <TopBannerAd />
+            
+            <ContentSection
+              id="utilities"
+              icon={Wrench}
+              title="Utilities & Tools"
+              description="Essential tools and utilities to enhance your experience"
+              items={publicItems}
+            />
+
+            <BottomAd />
+            <Footer />
+          </>
         )}
-
-        <BottomAd />
-
-        <Footer />
       </div>
     </>
   );
